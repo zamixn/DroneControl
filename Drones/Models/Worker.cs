@@ -20,7 +20,7 @@ namespace Drones.Models
         public List<Worker> GetWorkers()
         { throw new NotImplementedException(); }
 
-        public void ChangeRole()
+        public int GetRole()
         { throw new NotImplementedException(); }
 
         public void UpdateWorker(Worker worker)
