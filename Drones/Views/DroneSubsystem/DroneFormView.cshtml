@@ -1,0 +1,35 @@
+﻿@model Drones.Models.Drone
+
+@{
+    ViewData["Title"] = "DroneFormView";
+}
+
+<h2>Naujo drono forma</h2>
+
+<h4>Dronas</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="createDrone">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                
+                <p>
+                    Modelis:
+                    <br>
+                    <input type="text" name="model" required maxlength="20" />
+                </p>
+
+                <input type="submit" value="Saugoti" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Atgal", "openDroneListView", "DroneSubsystem")
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +17,11 @@ namespace Drones
     {
         public Startup(IConfiguration configuration)
         {
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.ConnectionStrings.ConnectionStrings.Add(new ConnectionStringSettings("MysqlConnection", "Data Source=localhost;port=3306;Initial Catalog=drone_control_v1; User Id=root;password=;SslMode=none;convert zero datetime=True"));
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
+
             Configuration = configuration;
         }
 
@@ -56,7 +62,7 @@ namespace Drones
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=ParkingLot}/{action=Index}/{id?}");
             });
         }
     }

@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Drones.Models.Drone>
+﻿@model IEnumerable<Drones.Models.ParkingLot>
 
 @{
-    ViewData["Title"] = "DroneListView";
+    ViewData["Title"] = "ParkingLotListView";
 }
 
-<h2>DroneListView</h2>
+<h2>ParkingLotListView</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,11 +12,11 @@
 <table class="table">
     <thead>
         <tr>
-            <th></th>
+            <th>Parking lot list view</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@*@foreach (var item in Model) {
         <tr>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
@@ -24,6 +24,6 @@
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
-}
+}*@
     </tbody>
 </table>

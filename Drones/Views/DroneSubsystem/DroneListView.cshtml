@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Drones.Models.Drone>
+
+@{
+    ViewData["Title"] = "DroneListView";
+}
+
+<h2>DroneListView</h2>
+
+<p>
+    @Html.ActionLink("Pridėti", "openDroneFormView", "DroneSubsystem")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Modelis</th>
+            <th>Būsena</th>
+            <th>Baterijos likutis</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(id => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.model)
+            </td>
+            <td>
+                @Html.DisplayFor(state => item.state)
+            </td>
+            <td>
+                @Html.DisplayFor(batteryRemaining => item.batteryRemaining)
+            </td>
+            <td>
+                @*@Html.ActionLink("Šalinti", "removeDrone", "DroneSubsystem", new { id = item.id })*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

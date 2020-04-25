@@ -11,7 +11,7 @@ namespace Drones.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return View("MainSystemIndexView");
         }
         public IActionResult showLotReservationList()
         {

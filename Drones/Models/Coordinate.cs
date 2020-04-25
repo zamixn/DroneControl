@@ -11,7 +11,14 @@ namespace Drones.Models
     {
         public string Longitude { get; private set; }
         public string Latitude { get; private set; }
-        public int fk_route { get; private set; }
+        public int fk_route { get; private set; }        
+
+        public Coordinate(string longitude, string latitude, int fk_route)
+        {
+            Longitude = longitude;
+            Latitude = latitude;
+            this.fk_route = fk_route;
+        }
 
         public static bool Create(Coordinate coordinate)
         {

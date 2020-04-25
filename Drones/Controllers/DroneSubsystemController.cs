@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Drones.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Drones.Controllers
@@ -18,7 +20,7 @@ namespace Drones.Controllers
         }
         public IActionResult openDroneFormView()
         {
-            return View();
+            return View("DroneFormView");
         }
         public IActionResult submitDroneData()
         {
@@ -30,16 +32,27 @@ namespace Drones.Controllers
         }
         public IActionResult openDroneListView()
         {
-            return View("DroneListView");
+            List<Drone> drones = Drone.getDroneList(); // <- this is a list, for erick
+            return View("DroneListView", drones);
         }
         public IActionResult checkInput()
         {
             return View();
         }
-        public IActionResult removeDrone()
+        public IActionResult removeDrone(int id)
         {
-            return View();
+            Drone.Delete(id);
+            return openDroneListView();
         }
+
+        [HttpPost]
+        public IActionResult createDrone()
+        {
+            string _model = Request.Form["model"];
+            Drone.Create(new Drone(_model, DroneState.Off, 100));
+            return openDroneListView();
+        }
+
         public IActionResult sendLicensePlateInfo()
         {
             return View();
