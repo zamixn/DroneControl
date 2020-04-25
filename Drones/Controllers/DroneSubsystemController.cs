@@ -36,15 +36,15 @@ namespace Drones.Controllers
         {
             return View();
         }
-        public IActionResult openPenaltyForm()
-        {
-            return View("PenaltyFormView");
-        }
-        public IActionResult submitPenaltyData()
+        public IActionResult removeDrone()
         {
             return View();
         }
-        public IActionResult removeDrone()
+        public IActionResult sendLicensePlateInfo()
+        {
+            return View();
+        }
+        public IActionResult validateNumber()
         {
             return View();
         }
