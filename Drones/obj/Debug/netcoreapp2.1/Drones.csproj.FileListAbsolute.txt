@@ -30,3 +30,35 @@ C:\Stuff\_UNI_\3 Kursas\2 Semestras\Programų sistemų analizės ir projektavimo
 C:\Stuff\_UNI_\3 Kursas\2 Semestras\Programų sistemų analizės ir projektavimo įrankiai\Drones\Drones\Drones\obj\Debug\netcoreapp2.1\Drones.dll
 C:\Stuff\_UNI_\3 Kursas\2 Semestras\Programų sistemų analizės ir projektavimo įrankiai\Drones\Drones\Drones\obj\Debug\netcoreapp2.1\Drones.pdb
 C:\Stuff\_UNI_\3 Kursas\2 Semestras\Programų sistemų analizės ir projektavimo įrankiai\Drones\Drones\Drones\obj\Debug\netcoreapp2.1\Drones.csproj.CopyComplete
+C:\Users\Eric\Desktop\DroneControl\Drones\bin\Debug\netcoreapp2.1\Drones.deps.json
+C:\Users\Eric\Desktop\DroneControl\Drones\bin\Debug\netcoreapp2.1\Drones.runtimeconfig.json
+C:\Users\Eric\Desktop\DroneControl\Drones\bin\Debug\netcoreapp2.1\Drones.runtimeconfig.dev.json
+C:\Users\Eric\Desktop\DroneControl\Drones\bin\Debug\netcoreapp2.1\Drones.dll
+C:\Users\Eric\Desktop\DroneControl\Drones\bin\Debug\netcoreapp2.1\Drones.pdb
+C:\Users\Eric\Desktop\DroneControl\Drones\bin\Debug\netcoreapp2.1\Drones.Views.dll
+C:\Users\Eric\Desktop\DroneControl\Drones\bin\Debug\netcoreapp2.1\Drones.Views.pdb
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.csprojAssemblyReference.cache
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.csproj.CoreCompileInputs.cache
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.RazorAssemblyInfo.cache
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.RazorAssemblyInfo.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.AssemblyInfoInputs.cache
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.AssemblyInfo.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.TagHelpers.input.cache
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.TagHelpers.output.cache
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.RazorCoreGenerate.cache
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Razor\Views\Home\About.g.cshtml.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Razor\Views\Home\Contact.g.cshtml.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.g.cshtml.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.g.cshtml.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.g.cshtml.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_Layout.g.cshtml.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Razor\Views\_ViewImports.g.cshtml.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Razor\Views\_ViewStart.g.cshtml.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.RazorTargetAssemblyInfo.cache
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.RazorTargetAssemblyInfo.cs
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.Views.pdb
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.dll
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.pdb
+C:\Users\Eric\Desktop\DroneControl\Drones\obj\Debug\netcoreapp2.1\Drones.csproj.CopyComplete
