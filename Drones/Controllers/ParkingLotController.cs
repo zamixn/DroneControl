@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Drones.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Drones.Controllers
@@ -14,15 +15,15 @@ namespace Drones.Controllers
         }
         public IActionResult showLotReservationList()
         {
-            return View();
+            return View("ParkingLotReservationsListView");
         }
         public IActionResult createLot()
         {
-            return View();
+            return View("ParkingLotFormView");
         }
         public IActionResult showLots()
         {
-            return View();
+            return View("ParkingLotListView");
         }
         public IActionResult confirmInformation()
         {

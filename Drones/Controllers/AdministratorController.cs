@@ -14,7 +14,7 @@ namespace Drones.Controllers
         }
         public IActionResult OpenWorkerView()
         {
-            return View();
+            return View("WorkerListView");
         }
         public IActionResult SelectRole()
         {
