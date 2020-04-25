@@ -30,7 +30,7 @@ namespace Drones.Controllers
         }
         public IActionResult openDroneListView()
         {
-            return View();
+            return View("DroneListView");
         }
         public IActionResult checkInput()
         {
@@ -38,7 +38,7 @@ namespace Drones.Controllers
         }
         public IActionResult openPenaltyForm()
         {
-            return View();
+            return View("PenaltyFormView");
         }
         public IActionResult submitPenaltyData()
         {
