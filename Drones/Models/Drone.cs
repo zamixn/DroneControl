@@ -7,15 +7,15 @@ using System.Configuration;
 
 namespace Drones.Models
 {
-    public class Drone
+    public class Drone 
     {
-        private int id;
-        private DroneState state;
-        private double batteryRemaining;
+        public int id { get; private set; }
+        public DroneState state { get; private set; }
+        public double batteryRemaining { get; private set; }
 
         public static bool Create(Drone drone)
         {
-            string sql = $"INSERT INTO `Drone` (`state`, `batteryRemaining`) VALUES ('{drone.state}', '{drone.batteryRemaining}')";
+            string sql = $"INSERT INTO `drone` (`BatteryRemaining`, `State`) VALUES ('{drone.batteryRemaining}', '{drone.state}')";
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);
             MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
