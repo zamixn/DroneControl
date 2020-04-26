@@ -1,0 +1,26 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "tempDroneForm";
+}
+
+<h2>testavimas</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>numeris</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (string item in (List<string>)Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(plate => item)
+            </tr>
+        }
+    </tbody>
+</table>
+
+

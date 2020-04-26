@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Drones.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +54,7 @@ namespace Drones.Controllers
             int index = 0;
 
             int count = 10000;
-            while(count-- > 0)
+            while (count-- > 0)
             {
                 string lat = Request.Form["lat_" + index];
                 string lon = Request.Form["lon_" + index];
@@ -75,10 +79,34 @@ namespace Drones.Controllers
             return openDroneListView();
         }
 
-        public IActionResult sendLicensePlateInfo()
+        public static List<string> plates = new List<string>();
+        public static void receiveLicensePlateInfo()
         {
-            return View();
+            Thread t = new Thread(() =>
+            {
+                while (true)
+                {
+                    string py = "/c C:\\Python27\\python.exe server.py";
+                    ProcessStartInfo info = new ProcessStartInfo("cmd", py);
+                    info.CreateNoWindow = false;
+                    info.UseShellExecute = true;
+                    info.WindowStyle = ProcessWindowStyle.Hidden;
+                    var p = Process.Start(info);
+                    p.WaitForExit();
+
+                    string plateFile = "plate.txt";
+                    string plate = System.IO.File.ReadAllText(plateFile);
+                    plates.Add(plate);
+                    Debug.WriteLine("plate is: " + plate);
+                }
+            });
+            t.Start();
         }
+        public IActionResult tempDroneForm()
+        {
+            return View("tempDroneForm", plates);
+        }
+
         public IActionResult validateNumber()
         {
             return View();

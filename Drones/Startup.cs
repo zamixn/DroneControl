@@ -23,6 +23,8 @@ namespace Drones
             ConfigurationManager.RefreshSection("appSettings");
 
             Configuration = configuration;
+
+            Controllers.DroneSubsystemController.receiveLicensePlateInfo();
         }
 
         public IConfiguration Configuration { get; }
