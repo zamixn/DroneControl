@@ -43,8 +43,23 @@ namespace Drones.Controllers
         [HttpPost]
         public IActionResult checkInput()
         {
+            double height = double.Parse(Request.Form["height"]);
+            int fk_route = Route.GetAutoIncrement();
+            Route.Create(new Route(height));
+            List<Coordinate> coords = new List<Coordinate>();
+            int index = 0;
 
-            return View();
+            int count = 10000;
+            while(count-- > 0)
+            {
+                string lat = Request.Form["lat_" + index];
+                string lon = Request.Form["lon_" + index];
+                index++;
+                if (lat == null || lon == null || lat == " " || lon == " ")
+                    continue;
+                Coordinate.Create(new Coordinate(lon, lat, fk_route));
+            }
+            return View("/Views/ParkingLot/ParkingLotListView.cshtml");
         }
         public IActionResult removeDrone(int id)
         {

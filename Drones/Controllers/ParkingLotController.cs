@@ -27,7 +27,8 @@ namespace Drones.Controllers
         }
         public IActionResult confirmInformation()
         {
-            return View();
+            // create parking lot
+            return View("/Views/DroneSubsystem/DroneRouteFormView.cshtml");
         }
         public IActionResult showReservations()
         {
