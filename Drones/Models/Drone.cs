@@ -27,7 +27,32 @@ namespace Drones.Models
             this.state = state;
             this.batteryRemaining = batteryRemaining;
         }
+        public Drone Select(int id)
+        {
+            string sql = $"SELECT * FROM drone WHERE id = {id}";
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            mySqlConnection.Open();
+            MySqlDataAdapter mda = new MySqlDataAdapter(mySqlCommand);
+            DataTable dt = new DataTable();
+            mda.Fill(dt);
+            mySqlConnection.Close();
+            mda.Dispose();
+            if (dt.Rows.Count == 0)
+                return null;
+            var row = dt.Rows[0];
 
+            Drone drone = new Drone
+            {
+                id = Convert.ToInt32(row["id"]),
+                model = Convert.ToString(row["model"]),
+                state = (DroneState)(Convert.ToInt32(row["State"]) - 1),
+                batteryRemaining = Convert.ToDouble(row["BatteryRemaining"])
+            };
+
+            return drone;
+        }
         public static bool Create(Drone drone)
         {
             string sql = $"INSERT INTO `drone` (`model`, `BatteryRemaining`, `State`) VALUES ('{drone.model}', '{drone.batteryRemaining}', '{((int)drone.state + 1)}')";
@@ -59,15 +84,15 @@ namespace Drones.Models
             List<Drone> list = new List<Drone>();
             foreach (DataRow row in dt.Rows)
             {
-                Drone parkingLot = new Drone
+                Drone drone = new Drone
                 {
                     id = Convert.ToInt32(row["id"]),
                     model = Convert.ToString(row["model"]),
                     state = (DroneState)(Convert.ToInt32(row["State"]) - 1),
-                    batteryRemaining = Convert.ToDouble(row["BatteryRemaining"]),
+                    batteryRemaining = Convert.ToDouble(row["BatteryRemaining"])
                 };
 
-                list.Add(parkingLot);
+                list.Add(drone);
             }
             return list;
         }
