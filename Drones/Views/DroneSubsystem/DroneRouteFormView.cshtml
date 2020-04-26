@@ -4,15 +4,30 @@
     ViewData["Title"] = "DroneRouteFormView";
 }
 
-<h2>DroneRouteFormView</h2>
+<h2>Naujo maršruto forma</h2>
 
-<h4>Route</h4>
+<h4>Maršrutas</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="DroneRouteFormView">
+        <form asp-action="createDroneRoute">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <p>
+                    Drono skridimo aukštis:
+                    <br>
+                    <input type="number" name="height" step=".01" required />
+                </p>
+                <p>
+                    Koordinatės:
+                    <br>
+                <p class="coord">
+                    <input type="number" name="lat" step=".01" required />
+                    <input type="number" name="lon" step=".01" required />
+                    <span class="remove" runat="server">trinti</span>
+                </p>
+                <span class="add" runat="server">pridėti</span>
+                <br><br>
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
@@ -22,7 +37,26 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
 @section Scripts {
+
+    <script language="javascript" type="text/javascript">
+        var index = 0;
+        $(".add").click(function () {
+            var dupelicate = $(".coord").clone(true);
+            dupelicate.removeClass("coord");
+            dupelicate.removeClass("coord_".concat(index));
+            dupelicate.children[0].val = "";
+            dupelicate.children[1].val = "";
+            dupelicate.insertBefore(this);
+            return false;
+        });
+        $(".remove").click(function () {
+            $(this).parent().remove();
+        });
+    </script>
+
+
+
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -4,13 +4,13 @@
     ViewData["Title"] = "ParkingLotFormView";
 }
 
-<h2>ParkingLotFormView</h2>
+<h2>Aištelės forma</h2>
 
-<h4>ParkingLot</h4>
+<h4>Aikštelė</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="ParkingLotFormView">
+        <form asp-action="createLot">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -18,8 +18,12 @@
         </form>
     </div>
 </div>
+<br>
+<p>
+    <a asp-controller="DroneSubsystem"  asp-action="createDroneRoute">Kurti naują maršrutą</a>
+</p>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="showLots">Atgal</a>
 </div>
 

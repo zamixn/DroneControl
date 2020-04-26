@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Drones.Models;
@@ -16,7 +17,9 @@ namespace Drones.Controllers
         }
         public IActionResult createDroneRoute()
         {
-            return View();
+            //dynamic mymodel = new ExpandoObject();
+            //mymodel.coordinates = GetStudents();
+            return View("DroneRouteFormView");
         }
         public IActionResult openDroneFormView()
         {
@@ -35,8 +38,12 @@ namespace Drones.Controllers
             List<Drone> drones = Drone.getDroneList(); // <- this is a list, for erick
             return View("DroneListView", drones);
         }
+
+        // drone route creation
+        [HttpPost]
         public IActionResult checkInput()
         {
+
             return View();
         }
         public IActionResult removeDrone(int id)
