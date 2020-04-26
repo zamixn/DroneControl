@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2020 at 09:39 PM
+-- Generation Time: Apr 26, 2020 at 08:08 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 5.6.40
 
@@ -52,7 +52,8 @@ INSERT INTO `coordinate` (`longitude`, `latitude`, `id`, `fk_route`) VALUES
 
 CREATE TABLE `drone` (
   `id` int(11) NOT NULL,
-  `BatterryRemaining` decimal(10,0) NOT NULL,
+  `model` varchar(20) NOT NULL,
+  `BatteryRemaining` decimal(10,0) NOT NULL,
   `State` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -60,9 +61,16 @@ CREATE TABLE `drone` (
 -- Dumping data for table `drone`
 --
 
-INSERT INTO `drone` (`id`, `BatterryRemaining`, `State`) VALUES
-(1, '50', 1),
-(2, '100', 1);
+INSERT INTO `drone` (`id`, `model`, `BatteryRemaining`, `State`) VALUES
+(1, 'good alpha-1', '50', 1),
+(2, 'gooder 3000', '100', 1),
+(5, 'goodest T-1000', '100', 1),
+(6, 'gooderer', '100', 1),
+(7, '', '100', 1),
+(8, 'asdfsdfasgadfgagfdgd', '100', 1),
+(9, 'asd', '100', 1),
+(10, 'fasgdwfg', '100', 1),
+(11, 'fgh', '100', 1);
 
 -- --------------------------------------------------------
 
@@ -330,7 +338,7 @@ ALTER TABLE `coordinate`
 -- AUTO_INCREMENT for table `drone`
 --
 ALTER TABLE `drone`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `dronestate`
