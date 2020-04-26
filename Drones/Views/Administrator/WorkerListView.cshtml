@@ -6,9 +6,6 @@
 
 <h2>WorkerListView</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -19,9 +16,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.DisplayFor(id => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(name => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(surname => item.surname)
+            </td>
+            <td>
+                @Html.DisplayFor(role => item.role)
             </td>
         </tr>
 }
