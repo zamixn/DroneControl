@@ -79,5 +79,27 @@ namespace Drones.Models
 
             return true;
         }
+
+        public static List<Coordinate> GetParkingLotRouteId(ParkingLot parkingLot)
+        {
+            string sql = $"SELECT coordinate.longitude as longitude, coordinate.latitude as latitude, coordinate.fk_route as fk_route FROM `route` LEFT JOIN coordinate on route.id = coordinate.id WHERE coordinate.fk_route = {parkingLot.fk_RouteFrom};";
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            mySqlConnection.Open();
+            MySqlDataAdapter mda = new MySqlDataAdapter(mySqlCommand);
+            DataTable dt = new DataTable();
+            mda.Fill(dt);
+            mySqlConnection.Close();
+            mda.Dispose();
+
+            List<Coordinate> list = new List<Coordinate>();
+            foreach (DataRow row in dt.Rows)
+            {
+                Coordinate coordinate = new Coordinate(Convert.ToString(row["longitude"]), Convert.ToString(row["latitude"]), Convert.ToInt32(row["fk_route"]));
+                list.Add(coordinate);
+            }
+            return list;
+        }
     }
 }
