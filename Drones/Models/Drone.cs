@@ -97,6 +97,36 @@ namespace Drones.Models
             return list;
         }
 
+        public static Drone getReadyDrone()
+        {
+            string sql = $"SELECT * FROM `drone` WHERE BatteryRemaining = 100 AND State = 2";
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            Debug.WriteLine(conn);
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            mySqlConnection.Open();
+            MySqlDataAdapter mda = new MySqlDataAdapter(mySqlCommand);
+            DataTable dt = new DataTable();
+            mda.Fill(dt);
+            mySqlConnection.Close();
+            mda.Dispose();
+
+            List<Drone> list = new List<Drone>();
+            foreach (DataRow row in dt.Rows)
+            {
+                Drone drone = new Drone
+                {
+                    id = Convert.ToInt32(row["id"]),
+                    model = Convert.ToString(row["model"]),
+                    state = (DroneState)(Convert.ToInt32(row["State"]) - 1),
+                    batteryRemaining = Convert.ToDouble(row["BatteryRemaining"])
+                };
+
+                list.Add(drone);
+            }
+            return list[0];
+        }
+
         public static bool Delete(int id)
         {
             string sqlquery = $"DELETE FROM `drone` WHERE `drone`.`id` = {id}";
