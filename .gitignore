@@ -1,3 +1,5 @@
 .vs/
 Drones/bin/
 Drones/obj/
+Drones/received_image.jpg
+Drones/plate.txt
