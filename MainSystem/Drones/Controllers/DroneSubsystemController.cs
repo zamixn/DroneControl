@@ -98,6 +98,7 @@ namespace Drones.Controllers
                     string plate = System.IO.File.ReadAllText(plateFile);
                     plates.Add(plate);
                     Debug.WriteLine("plate is: " + plate);
+
                 }
             });
             t.Start();
