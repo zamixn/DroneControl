@@ -19,6 +19,21 @@ namespace Drones.Models
         public int fk_RouteFrom { get; private set; }
         public int fk_RouteTo { get; private set; }
 
+        public ParkingLot(int id, string address, int totalSpaces, int reservedSpaces, ParkingLotState state, int fk_Drone, int fk_RouteFrom, int fk_RouteTo)
+        {
+            this.id = id;
+            this.address = address;
+            this.totalSpaces = totalSpaces;
+            this.reservedSpaces = reservedSpaces;
+            this.state = state;
+            this.fk_Drone = fk_Drone;
+            this.fk_RouteFrom = fk_RouteFrom;
+            this.fk_RouteTo = fk_RouteTo;
+        }
+
+        public ParkingLot()
+        {
+        }
 
         public void Create(ParkingLot parkingLot)
         {
@@ -33,7 +48,7 @@ namespace Drones.Models
             mySqlConnection.Close();
         }
 
-        public List<ParkingLot> SelectLots()
+        public static List<ParkingLot> SelectLots()
         {
             string sql = $"SELECT * FROM parkinglot";
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;

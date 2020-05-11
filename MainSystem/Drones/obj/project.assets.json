@@ -13236,11 +13236,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Stuff\\_UNI_\\3 Kursas\\2 Semestras\\Programų sistemų analizės ir projektavimo įrankiai\\Drones\\Drones\\MainSystem\\Drones\\Drones.csproj",
+      "projectUniqueName": "C:\\Stuff\\_UNI_\\3 Kursas\\2 Semestras\\Programu sistemu analizes ir projektavimo irankiai\\Drones\\Drones\\MainSystem\\Drones\\Drones.csproj",
       "projectName": "Drones",
-      "projectPath": "C:\\Stuff\\_UNI_\\3 Kursas\\2 Semestras\\Programų sistemų analizės ir projektavimo įrankiai\\Drones\\Drones\\MainSystem\\Drones\\Drones.csproj",
+      "projectPath": "C:\\Stuff\\_UNI_\\3 Kursas\\2 Semestras\\Programu sistemu analizes ir projektavimo irankiai\\Drones\\Drones\\MainSystem\\Drones\\Drones.csproj",
       "packagesPath": "C:\\Users\\Zamix\\.nuget\\packages\\",
-      "outputPath": "C:\\Stuff\\_UNI_\\3 Kursas\\2 Semestras\\Programų sistemų analizės ir projektavimo įrankiai\\Drones\\Drones\\MainSystem\\Drones\\obj\\",
+      "outputPath": "C:\\Stuff\\_UNI_\\3 Kursas\\2 Semestras\\Programu sistemu analizes ir projektavimo irankiai\\Drones\\Drones\\MainSystem\\Drones\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

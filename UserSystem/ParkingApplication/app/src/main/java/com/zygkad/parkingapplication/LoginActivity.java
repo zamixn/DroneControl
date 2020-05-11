@@ -45,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         if(LicensePlate != "")
             license_plate_text.setText(LicensePlate);
         if(PhoneNumber != "")
