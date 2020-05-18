@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using Drones.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace UserSubsytemAPI.Controllers
 {
@@ -64,8 +65,19 @@ namespace UserSubsytemAPI.Controllers
 
         // POST api/parkingLot
         [HttpPost]
-        public void Post([FromBody] string value)
+        public string Post([FromBody] string content)
         {
+            var jsonObject = JsonConvert.DeserializeObject<JToken>(content);
+            int hours = jsonObject.SelectToken("hours").ToObject<int>();
+            int minutes = jsonObject.SelectToken("minutes").ToObject<int>();
+            int parkingLot = jsonObject.SelectToken("parkingLot").ToObject<int>();
+            string licensePlate = jsonObject.SelectToken("licensePlate").ToObject<string>();
+            string phoneNumber = jsonObject.SelectToken("phoneNumber").ToObject<string>();
+
+            Reservation reservation = new Reservation(licensePlate, phoneNumber, DateTime.UtcNow, new TimeSpan(hours, minutes, 0), parkingLot);
+            Reservation.Insert(reservation);
+
+            return string.Format("hours: {0}, minutes:{1}, lot:{2}, plate:{3}, number:{4}", hours, minutes, parkingLot, licensePlate, phoneNumber);
         }
 
         // PUT api/parkingLot/5
