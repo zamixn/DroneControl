@@ -27,6 +27,7 @@ namespace Drones
             Configuration = configuration;
 
             Controllers.DroneSubsystemController.receiveLicensePlateInfo();
+            Controllers.DroneSubsystemController.parkingLotDroneSender();
         }
 
         public IConfiguration Configuration { get; }
