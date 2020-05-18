@@ -23,7 +23,8 @@ namespace Drones.Controllers
         }
         public IActionResult showLots()
         {
-            return View("ParkingLotListView");
+            List<ParkingLot> parkingLots = ParkingLot.SelectLots();
+            return View("ParkingLotListView", parkingLots);
         }
         public IActionResult confirmInformation()
         {

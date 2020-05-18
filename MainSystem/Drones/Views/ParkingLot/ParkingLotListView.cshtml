@@ -12,18 +12,50 @@
 <table class="table">
     <thead>
         <tr>
-            <th></th>
+            <th>Adresas</th>
+            <th>Parkavimosi vietų</th>
+            <th>Rezervuotos vietos</th>
+            <th>Aikštelės būsena</th>
+            <th>Ištrinti</th>
+            <th>Peržiūrėti rezervacijas</th>
         </tr>
     </thead>
     <tbody>
-@*@foreach (var item in Model) {
+@foreach (var item in Model)
+{
         <tr>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.DisplayFor(address => item.address)
+            </td>
+            <td>
+                @Html.DisplayFor(parkingSpaces => item.totalSpaces)
+            </td>
+            <td>
+                @Html.DisplayFor(reservedSpaces => item.reservedSpaces)
+            </td>
+            <td>
+                @*=========================================================
+                    Ši vieta neveikia teisingai. item.state gali paduoti arba skaiciu arba reiksme opened/closed
+                    =======================================================
+                *@
+                @{
+                    if (item.state == ParkingLotState.Open)
+                    {
+                        <p>Open</p>
+                    }
+                    else
+                    {
+                        <p>Closed</p>
+                    }
+                }
+            </td>
+            <td>
+                <a asp-action="delete"><button class="btn btn-primary">Ištrinti</button></a>
+            </td>
+            <td>
+                <a asp-action="showReservations"><button class="btn btn-primary">Peržiūrėti rezervacijas</button></a>
             </td>
         </tr>
-}*@
+}
     </tbody>
 </table>
