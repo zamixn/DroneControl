@@ -26,10 +26,23 @@ namespace Drones.Controllers
             List<ParkingLot> parkingLots = ParkingLot.SelectLots();
             return View("ParkingLotListView", parkingLots);
         }
+
+        [HttpPost]
         public IActionResult confirmInformation()
         {
-            // create parking lot
-            return View("/Views/DroneSubsystem/DroneRouteFormView.cshtml");
+            string adress = Request.Form["address"];
+            int totalSpaces = int.Parse(Request.Form["totalSpaces"]);
+            int reservedSpaces = int.Parse(Request.Form["reservedSpaces"]);
+            string stateString = Request.Form["state"];
+            ParkingLotState state = (ParkingLotState)Enum.Parse(typeof(ParkingLotState), stateString, true);
+            string selectedDrone = Request.Form["fk_drone"];
+            int fk_drone = Drone.getDroneIdFromName(selectedDrone);
+            int checkInterval = int.Parse(Request.Form["checkTimeSpan"]);
+            DateTime lastVisit = DateTime.Parse(Request.Form["lastDroneVisit"]);
+            ParkingLot.Create(new ParkingLot(adress, totalSpaces, reservedSpaces, state, checkInterval, lastVisit, fk_drone, 999, 1000));
+
+            //// create parking lot
+            return View("/Views/DroneSubsystem/DroneRouteFormFromView.cshtml");
         }
         public IActionResult showReservations()
         {

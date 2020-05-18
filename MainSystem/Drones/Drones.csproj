@@ -11,4 +11,10 @@
     <PackageReference Include="MySql.Data" Version="8.0.19" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\DroneSubsystem\DroneRouteFormToView.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

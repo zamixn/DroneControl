@@ -19,11 +19,13 @@ namespace Drones.Controllers
         {
             return View();
         }
-        public IActionResult createDroneRoute()
+        public IActionResult createDroneFromRoute()
         {
-            //dynamic mymodel = new ExpandoObject();
-            //mymodel.coordinates = GetStudents();
-            return View("DroneRouteFormView");
+            return View("DroneRouteFormFromView");
+        }
+        public IActionResult createDroneToRoute()
+        {
+            return View("DroneRouteFormToView");
         }
         public IActionResult openDroneFormView()
         {
@@ -45,7 +47,7 @@ namespace Drones.Controllers
 
         // drone route creation
         [HttpPost]
-        public IActionResult checkInput()
+        public IActionResult checkInputFrom()
         {
             double height = double.Parse(Request.Form["height"]);
             int fk_route = Route.GetAutoIncrement();
@@ -63,8 +65,33 @@ namespace Drones.Controllers
                     continue;
                 Coordinate.Create(new Coordinate(lon, lat, fk_route));
             }
-            return View("/Views/ParkingLot/ParkingLotListView.cshtml");
+            ParkingLot.UpdateRouteFrom(fk_route);
+            return View("DroneRouteFormToView");
         }
+        [HttpPost]
+        public IActionResult checkInputTo()
+        {
+            double height = double.Parse(Request.Form["height"]);
+            int fk_route = Route.GetAutoIncrement();
+            Route.Create(new Route(height));
+            List<Coordinate> coords = new List<Coordinate>();
+            int index = 0;
+
+            int count = 10000;
+            while (count-- > 0)
+            {
+                string lat = Request.Form["lat_" + index];
+                string lon = Request.Form["lon_" + index];
+                index++;
+                if (lat == null || lon == null || lat == " " || lon == " ")
+                    continue;
+                Coordinate.Create(new Coordinate(lon, lat, fk_route));
+            }
+            ParkingLot.UpdateRouteTo(fk_route);
+            List<ParkingLot> parkingLots = ParkingLot.SelectLots();
+            return View("/Views/ParkingLot/ParkingLotListView.cshtml", parkingLots);
+        }
+
         public IActionResult removeDrone(int id)
         {
             Drone.Delete(id);
@@ -94,10 +121,10 @@ namespace Drones.Controllers
                     var p = Process.Start(info);
                     p.WaitForExit();
 
-                    string plateFile = "plate.txt";
-                    string plate = System.IO.File.ReadAllText(plateFile);
-                    plates.Add(plate);
-                    Debug.WriteLine("plate is: " + plate);
+                    //string plateFile = "plate.txt";
+                    //string plate = System.IO.File.ReadAllText(plateFile);
+                    //plates.Add(plate);
+                    //Debug.WriteLine("plate is: " + plate);
 
                 }
             });

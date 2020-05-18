@@ -1,0 +1,65 @@
+﻿@model Drones.Models.Route
+
+@{
+    ViewData["Title"] = "DroneRouteFormToView";
+}
+
+<h2>Naujo maršruto į forma</h2>
+
+<h4>Maršrutas</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="DroneSubsystem" asp-action="checkInputTo">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <p>
+                    Drono skridimo aukštis:
+                    <br>
+                    <input type="number" name="height" step=".01" required />
+                </p>
+                <p>
+                    Koordinatės:
+                    <br>
+                <p class="coord">
+                    <input type="number" class="lat" name="lat_0" step=".01" required/>
+                    <input type="number" class="lon" name="lon_0" step=".01" required />
+                    <button type="button" class="remove_0" onclick="removeOnClick(0)" runat="server">trinti</button>
+                </p>
+                <button type="button" class="add" runat="server">pridėti</button>
+                <br><br>
+                <input type="submit" value="Saugoti" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+@section Scripts {
+
+    <script language="javascript" type="text/javascript">
+        var index = 0;
+        $(".add").click(function () {
+            index = index + 1;
+            var newElem =
+                "<p>\n" +
+                    "<input type=\"number\" class=\"lat_" + index +"\" name=\"lat_" + index + "\" step=\".01\" required />\n" +
+                    "<input type=\"number\" class=\"lon_" + index + "\" name=\"lon_" + index +"\" step=\".01\" required />\n" +
+                    "<button type=\"button\" class=\"remove_" + index + "\" onclick=\"removeOnClick(" + index +")\" runat=\"server\">trinti</button>\n" +
+                "</p>";
+            $(newElem).insertBefore(this);
+            return false;
+        });
+
+        function removeOnClick(index) {
+            $(".remove_" + index).parent().remove();
+        }
+    </script>
+
+
+
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

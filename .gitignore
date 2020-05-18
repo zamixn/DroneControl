@@ -3,3 +3,7 @@ Drones/bin/
 Drones/obj/
 Drones/received_image.jpg
 Drones/plate.txt
+MainSystem/Drones/obj/
+MainSystem/Drones/bin/
+MainSystem/UserSubsytemAPI/obj/
+MainSystem/UserSubsytemAPI/bin/

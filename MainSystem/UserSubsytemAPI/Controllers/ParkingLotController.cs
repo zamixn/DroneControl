@@ -39,14 +39,16 @@ namespace UserSubsytemAPI.Controllers
             {
                 ParkingLot parkingLot = new ParkingLot
                     (
-                    id: row["id"] != System.DBNull.Value ? Convert.ToInt32(row["id"]) : -1,
+                    //id: row["id"] != System.DBNull.Value ? Convert.ToInt32(row["id"]) : -1,
                     address: row["Address"] != System.DBNull.Value ? Convert.ToString(row["Address"]) : "",
                     totalSpaces: row["TotalSpaces"] != System.DBNull.Value ? Convert.ToInt32(row["TotalSpaces"]) : -1,
                     reservedSpaces: row["ReservedSpaces"] != System.DBNull.Value ? Convert.ToInt32(row["ReservedSpaces"]) : -1,
                     state: row["State"] != System.DBNull.Value ? (ParkingLotState)Convert.ToInt32(row["State"]) : ParkingLotState.Closed,
                     fk_Drone: row["fk_Drone"] != System.DBNull.Value ? Convert.ToInt32(row["fk_Drone"]) : -1,
                     fk_RouteFrom: row["fk_RouteFrom"] != System.DBNull.Value ? Convert.ToInt32(row["fk_RouteFrom"]) : -1,
-                    fk_RouteTo: row["fk_RouteTo"] != System.DBNull.Value ? Convert.ToInt32(row["fk_RouteTo"]) : -1
+                    fk_RouteTo: row["fk_RouteTo"] != System.DBNull.Value ? Convert.ToInt32(row["fk_RouteTo"]) : -1,
+                    lotCheckTimeSpan: row["NumberCheckTimeSpan"] != System.DBNull.Value ? Convert.ToInt32(row["NumberCheckTimeSpan"]) : -1,
+                    lastDroneVisit: row["lastDroneVisit"] != System.DBNull.Value ? Convert.ToDateTime(row["lastDroneVisit"]) : new DateTime(1, 1, 1, 0, 0, 0)
                     );
 
                 lots.Add(parkingLot);

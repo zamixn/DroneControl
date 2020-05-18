@@ -51,14 +51,14 @@
                 @Html.DisplayFor(checkTimeSpan => item.lotCheckTimeSpan)
             </td>
             <td>
-                @{ 
-                    if (item.lastDroneVisit==DateTime.MinValue)
+                @{
+                    if (item.lastDroneVisit == DateTime.MinValue)
                     {
                         <p>Išsiūstas nebuvo</p>
                     }
                     else
                     {
-                        Html.DisplayFor(lastVisit => item.lastDroneVisit);
+                        @Html.DisplayFor(checkTimeSpan => item.lastDroneVisit)
                     }
                 }
             </td>

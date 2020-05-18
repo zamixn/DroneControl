@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
+using System.ComponentModel.DataAnnotations;
 
 namespace Drones.Models
 {
@@ -16,12 +18,13 @@ namespace Drones.Models
         public int reservedSpaces { get; private set; }
         public ParkingLotState state { get; private set; }
         public int lotCheckTimeSpan { get; private set; }
+        [DisplayFormat(DataFormatString = "{0:g}")]
         public DateTime lastDroneVisit { get; private set; }
         public int fk_Drone { get; private set; }
         public int fk_RouteFrom { get; private set; }
         public int fk_RouteTo { get; private set; }
 
-        public ParkingLot(int id, string address, int totalSpaces, int reservedSpaces, ParkingLotState state, int lotCheckTimeSpan, DateTime lastDroneVisit,int fk_Drone, int fk_RouteFrom, int fk_RouteTo)
+        public ParkingLot(string address, int totalSpaces, int reservedSpaces, ParkingLotState state, int lotCheckTimeSpan, DateTime lastDroneVisit,int fk_Drone, int fk_RouteFrom, int fk_RouteTo)
         {
             this.id = id;
             this.address = address;
@@ -39,11 +42,11 @@ namespace Drones.Models
         {
         }
 
-        public void Create(ParkingLot parkingLot)
+        public static void Create(ParkingLot parkingLot)
         {
-            string sql = $"INSERT INTO `parkinglot` (`Address`, `TotalSpaces`, `ReservedSpaces`, `State`, `fk_Drone`, `fk_RouteFrom`, `fk_RouteTo`) VALUES ('{parkingLot.address}', '{parkingLot.totalSpaces}', '{parkingLot.reservedSpaces}', " +
-                $"'{parkingLot.state}', '{parkingLot.fk_Drone}', '{parkingLot.fk_RouteFrom}', '{parkingLot.fk_RouteTo}')";
-
+            string sql = $"INSERT INTO `parkinglot` (`Address`, `TotalSpaces`, `ReservedSpaces`, `State`, `fk_Drone`, `fk_RouteFrom`, `fk_RouteTo`, `numberCheckTimeSpan`, `lastDroneVisit`) VALUES ('{parkingLot.address}', '{parkingLot.totalSpaces}', '{parkingLot.reservedSpaces}', " +
+                $"'{(int)parkingLot.state}', '{parkingLot.fk_Drone}', '{parkingLot.fk_RouteFrom}', '{parkingLot.fk_RouteTo}', '{parkingLot.lotCheckTimeSpan}', '{parkingLot.lastDroneVisit}')";
+            Debug.WriteLine(sql);
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);
             MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
@@ -75,7 +78,7 @@ namespace Drones.Models
                     totalSpaces = Convert.ToInt32(row["TotalSpaces"]),
                     reservedSpaces = Convert.ToInt32(row["ReservedSpaces"]),
                     state = (ParkingLotState)Convert.ToInt32(row["State"]),
-                    lotCheckTimeSpan = Convert.ToInt32(row["lotCheckTimeSpan"]),
+                    lotCheckTimeSpan = Convert.ToInt32(row["numberCheckTimeSpan"]),
                     lastDroneVisit = DBNull.Value != row["lastDroneVisit"] ? Convert.ToDateTime(row["lastDroneVisit"]) : DateTime.MinValue,
                     fk_Drone = Convert.ToInt32(row["fk_Drone"]),
                     fk_RouteFrom = Convert.ToInt32(row["fk_RouteFrom"]),
@@ -121,6 +124,28 @@ namespace Drones.Models
                 list.Add(coordinate);
             }
             return list;
+        }
+
+        public static void UpdateRouteFrom(int fk_route)
+        {
+            string sqlquery = $"UPDATE  `parkinglot` set `fk_RouteFrom`= {fk_route} WHERE id = (select max(id) from `parkinglot`)";
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sqlquery, mySqlConnection);
+            mySqlConnection.Open();
+            mySqlCommand.ExecuteNonQuery();
+            mySqlConnection.Close();
+        }
+
+        public static void UpdateRouteTo(int fk_route)
+        {
+            string sqlquery = $"UPDATE  `parkinglot` set `fk_RouteTo`= {fk_route} WHERE id = (select max(id) from `parkinglot`)";
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sqlquery, mySqlConnection);
+            mySqlConnection.Open();
+            mySqlCommand.ExecuteNonQuery();
+            mySqlConnection.Close();
         }
     }
 }

@@ -13,6 +13,50 @@
         <form asp-action="confirmInformation">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <p>
+                    Adresas:
+                    <br>
+                    <input type="text" name="address" required maxlength="50" />
+                </p>
+
+                <p>
+                    Iš visų vietų:
+                    <br>
+                    <input type="number" name="totalSpaces" required />
+                </p>
+
+                <p>
+                    Rezervuotų vietų:
+                    <br>
+                    <input type="number" name="reservedSpaces" required />
+                </p>
+
+                <p>
+                    Aikštelės būsena
+                    <br>
+                    <select id="state" name="state">
+                        <option value="open">Atidaryta</option>
+                        <option value="closed">Uždaryta</option>
+                    </select>
+                </p>
+
+                <p>
+                    Dronas
+                    <br>
+                    @Html.DropDownList("fk_drone", new SelectList(Drone.getDroneListString()))
+                </p>
+
+                <p>
+                    Tikrinimų intervalas, minutės:
+                    <br>
+                    <input type="number" name="checkTimeSpan" required />
+                </p>
+
+                <p>
+                    Paskutinis Drono apsilankymas:
+                    <br>
+                    <input type="datetime-local" name="lastDroneVisit" required />
+                </p>
                 <input type="submit" value="Saugoti ir kurti maršrutą" class="btn btn-default" />
             </div>
         </form>
@@ -26,3 +70,7 @@
     <a asp-action="showLots">Atgal</a>
 </div>
 
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

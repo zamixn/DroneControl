@@ -97,6 +97,49 @@ namespace Drones.Models
             return list;
         }
 
+        public static int getDroneIdFromName(string droneName)
+        {
+            int id = 0;
+            string sql = $"SELECT drone.id FROM `drone` WHERE drone.model = '{droneName}'";
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            Debug.WriteLine(conn);
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            mySqlConnection.Open();
+            MySqlDataAdapter mda = new MySqlDataAdapter(mySqlCommand);
+            DataTable dt = new DataTable();
+            mda.Fill(dt);
+            mySqlConnection.Close();
+            mda.Dispose();
+            foreach (DataRow row in dt.Rows)
+            {
+                id = Convert.ToInt32(row["id"]);
+            }
+            return id;
+        }
+
+        public static List<string> getDroneListString()
+        {
+            string sql = $"SELECT * FROM `drone`";
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            Debug.WriteLine(conn);
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            mySqlConnection.Open();
+            MySqlDataAdapter mda = new MySqlDataAdapter(mySqlCommand);
+            DataTable dt = new DataTable();
+            mda.Fill(dt);
+            mySqlConnection.Close();
+            mda.Dispose();
+
+            List<string> list = new List<string>();
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(Convert.ToString(row["model"]));
+            }
+            return list;
+        }
+
         public static Drone getReadyDrone()
         {
             string sql = $"SELECT * FROM `drone` WHERE BatteryRemaining = 100 AND State = 2";
