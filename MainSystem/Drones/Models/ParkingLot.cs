@@ -15,17 +15,21 @@ namespace Drones.Models
         public int totalSpaces { get; private set; }
         public int reservedSpaces { get; private set; }
         public ParkingLotState state { get; private set; }
+        public int lotCheckTimeSpan { get; private set; }
+        public DateTime lastDroneVisit { get; private set; }
         public int fk_Drone { get; private set; }
         public int fk_RouteFrom { get; private set; }
         public int fk_RouteTo { get; private set; }
 
-        public ParkingLot(int id, string address, int totalSpaces, int reservedSpaces, ParkingLotState state, int fk_Drone, int fk_RouteFrom, int fk_RouteTo)
+        public ParkingLot(int id, string address, int totalSpaces, int reservedSpaces, ParkingLotState state, int lotCheckTimeSpan, DateTime lastDroneVisit,int fk_Drone, int fk_RouteFrom, int fk_RouteTo)
         {
             this.id = id;
             this.address = address;
             this.totalSpaces = totalSpaces;
             this.reservedSpaces = reservedSpaces;
             this.state = state;
+            this.lotCheckTimeSpan = lotCheckTimeSpan;
+            this.lastDroneVisit = lastDroneVisit;
             this.fk_Drone = fk_Drone;
             this.fk_RouteFrom = fk_RouteFrom;
             this.fk_RouteTo = fk_RouteTo;
@@ -71,6 +75,8 @@ namespace Drones.Models
                     totalSpaces = Convert.ToInt32(row["TotalSpaces"]),
                     reservedSpaces = Convert.ToInt32(row["ReservedSpaces"]),
                     state = (ParkingLotState)Convert.ToInt32(row["State"]),
+                    lotCheckTimeSpan = Convert.ToInt32(row["lotCheckTimeSpan"]),
+                    lastDroneVisit = DBNull.Value != row["lastDroneVisit"] ? Convert.ToDateTime(row["lastDroneVisit"]) : DateTime.MinValue,
                     fk_Drone = Convert.ToInt32(row["fk_Drone"]),
                     fk_RouteFrom = Convert.ToInt32(row["fk_RouteFrom"]),
                     fk_RouteTo = Convert.ToInt32(row["fk_RouteTo"])

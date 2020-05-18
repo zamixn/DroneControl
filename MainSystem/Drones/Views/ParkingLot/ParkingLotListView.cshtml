@@ -16,8 +16,10 @@
             <th>Parkavimosi vietų</th>
             <th>Rezervuotos vietos</th>
             <th>Aikštelės būsena</th>
-            <th>Ištrinti</th>
-            <th>Peržiūrėti rezervacijas</th>
+            <th>Dronų siuntimo intervalas, min</th>
+            <th>Paskutinis dronas išsiūstas</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -34,10 +36,6 @@
                 @Html.DisplayFor(reservedSpaces => item.reservedSpaces)
             </td>
             <td>
-                @*=========================================================
-                    Ši vieta neveikia teisingai. item.state gali paduoti arba skaiciu arba reiksme opened/closed
-                    =======================================================
-                *@
                 @{
                     if (item.state == ParkingLotState.Open)
                     {
@@ -46,6 +44,21 @@
                     else
                     {
                         <p>Closed</p>
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(checkTimeSpan => item.lotCheckTimeSpan)
+            </td>
+            <td>
+                @{ 
+                    if (item.lastDroneVisit==DateTime.MinValue)
+                    {
+                        <p>Išsiūstas nebuvo</p>
+                    }
+                    else
+                    {
+                        Html.DisplayFor(lastVisit => item.lastDroneVisit);
                     }
                 }
             </td>
