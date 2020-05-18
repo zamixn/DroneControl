@@ -7,7 +7,7 @@ namespace Drones.Models
 {
     public enum ParkingLotState
     {
-        Open,
-        Closed,
+        Open = 1,
+        Closed = 2,
     }
 }
