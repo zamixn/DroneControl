@@ -1,7 +1,7 @@
 package com.zygkad.parkingapplication.models;
 
 public class ParkingLot {
-    public float id;
+    public int id;
     public String address;
     public float totalSpaces;
     public float reservedSpaces;

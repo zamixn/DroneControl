@@ -126,6 +126,7 @@ namespace Drones.Models
             return list;
         }
 
+
         public static void UpdateRouteFrom(int fk_route)
         {
             string sqlquery = $"UPDATE  `parkinglot` set `fk_RouteFrom`= {fk_route} WHERE id = (select max(id) from `parkinglot`)";
@@ -146,6 +147,23 @@ namespace Drones.Models
             mySqlConnection.Open();
             mySqlCommand.ExecuteNonQuery();
             mySqlConnection.Close();
+        }
+        public static bool UpdateDroneVisitTime(int id)
+        {
+            string sql = $"UPDATE parkinglot SET parkingLot.lastDroneVisit = '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}' WHERE parkingLot.id = '{id}'";
+
+            Debug.WriteLine(sql);
+            Debug.WriteLine("==========================");
+
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            mySqlConnection.Open();
+            mySqlCommand.ExecuteNonQuery();
+            mySqlConnection.Close();
+
+            return true;
+
         }
     }
 }

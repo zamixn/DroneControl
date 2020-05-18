@@ -27,7 +27,7 @@ namespace Drones.Models
             this.state = state;
             this.batteryRemaining = batteryRemaining;
         }
-        public Drone Select(int id)
+        public static Drone Select(int id)
         {
             string sql = $"SELECT * FROM drone WHERE id = {id}";
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
@@ -53,6 +53,21 @@ namespace Drones.Models
 
             return drone;
         }
+
+        public static bool UpdateState(Drone drone, int state)
+        {
+            string sql = $"UPDATE drone SET drone.State = '{state}' WHERE drone.id = '{drone.id}'";
+
+            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            mySqlConnection.Open();
+            mySqlCommand.ExecuteNonQuery();
+            mySqlConnection.Close();
+
+            return true;
+        }
+
         public static bool Create(Drone drone)
         {
             string sql = $"INSERT INTO `drone` (`model`, `BatteryRemaining`, `State`) VALUES ('{drone.model}', '{drone.batteryRemaining}', '{((int)drone.state + 1)}')";

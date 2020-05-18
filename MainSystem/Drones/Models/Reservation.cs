@@ -16,10 +16,23 @@ namespace Drones.Models
         public TimeSpan reservationDuration { get; private set; }
         public int fk_parkingLot { get; private set; }
 
-        public void Insert(Reservation reservation)
+        public Reservation()
+        {
+        }
+
+        public Reservation(string licensePlateNumber, string ownerPhoneNumber, DateTime reservationDate, TimeSpan reservationDuration, int fk_parkingLot)
+        {
+            this.licensePlateNumber = licensePlateNumber;
+            this.ownerPhoneNumber = ownerPhoneNumber;
+            this.reservationDate = reservationDate;
+            this.reservationDuration = reservationDuration;
+            this.fk_parkingLot = fk_parkingLot;
+        }
+
+        public static void Insert(Reservation reservation)
         {
             string sql = $"INSERT INTO `reservation` (`LicensePlate`, `OwnerPhoneNumbers`, `ReservationDate`, `ReservationDuration`, `fk_parkingLot`) VALUES ('{reservation.licensePlateNumber}'," +
-                $" '{reservation.ownerPhoneNumber}', '{reservation.reservationDate}', '{reservation.reservationDuration}', '{reservation.fk_parkingLot}')";
+                $" '{reservation.ownerPhoneNumber}', '{reservation.reservationDate.ToString("yyyy-MM-dd HH:mm:ss.fff")}', '{reservation.reservationDuration}', '{reservation.fk_parkingLot}')";
 
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);
