@@ -40,7 +40,7 @@ namespace UserSubsytemAPI.Controllers
             {
                 ParkingLot parkingLot = new ParkingLot
                     (
-                    //id: row["id"] != System.DBNull.Value ? Convert.ToInt32(row["id"]) : -1,
+                    id: row["id"] != System.DBNull.Value ? Convert.ToInt32(row["id"]) : -1,
                     address: row["Address"] != System.DBNull.Value ? Convert.ToString(row["Address"]) : "",
                     totalSpaces: row["TotalSpaces"] != System.DBNull.Value ? Convert.ToInt32(row["TotalSpaces"]) : -1,
                     reservedSpaces: row["ReservedSpaces"] != System.DBNull.Value ? Convert.ToInt32(row["ReservedSpaces"]) : -1,
@@ -69,6 +69,7 @@ namespace UserSubsytemAPI.Controllers
         [HttpPost]
         public string Post([FromBody] string content)
         {
+            Debug.WriteLine("ReceivedPost: " + content);
             var jsonObject = JsonConvert.DeserializeObject<JToken>(content);
             int hours = jsonObject.SelectToken("hours").ToObject<int>();
             int minutes = jsonObject.SelectToken("minutes").ToObject<int>();

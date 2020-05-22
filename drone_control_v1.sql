@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2020 at 02:50 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.2
+-- Generation Time: May 22, 2020 at 05:19 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -49,7 +48,14 @@ INSERT INTO `coordinate` (`longitude`, `latitude`, `id`, `fk_route`) VALUES
 ('123213', '13123', 7, 4),
 ('21312', '21312', 8, 4),
 ('21321', '213123', 9, 4),
-('5435', '453', 10, 4);
+('5435', '453', 10, 4),
+('23123', '3211', 22, 1009),
+('345345', '323145', 23, 1010),
+('123123', '3321', 24, 1011),
+('112', '23232', 25, 1012),
+('313313', '22211', 26, 1013),
+('746534', '1234567', 27, 1014),
+('3423', '7564', 28, 1015);
 
 -- --------------------------------------------------------
 
@@ -173,7 +179,8 @@ CREATE TABLE `parkinglot` (
 
 INSERT INTO `parkinglot` (`id`, `Address`, `TotalSpaces`, `reservedSpaces`, `State`, `numberCheckTimeSpan`, `lastDroneVisit`, `fk_Drone`, `fk_RouteFrom`, `fk_RouteTo`) VALUES
 (1, 'Kaunas, LT Gatviausko g.', 59, 42, 1, 45, NULL, 1, 1, 2),
-(10, 'Studentu g. 15', 64, 32, 2, 30, NULL, 2, 3, 4);
+(10, 'Studentu g. 15', 64, 32, 2, 30, NULL, 2, 3, 4),
+(35, 'sw all gatve', 95, 98, 1, 95, '2020-05-16 01:01:00', 10, 1014, 1015);
 
 -- --------------------------------------------------------
 
@@ -235,7 +242,16 @@ INSERT INTO `route` (`id`, `Height`) VALUES
 (1, '0'),
 (2, '5'),
 (3, '0'),
-(4, '25');
+(4, '25'),
+(999, '999'),
+(1000, '1000'),
+(1009, '1233'),
+(1010, '21113'),
+(1011, '1222'),
+(1012, '23332'),
+(1013, '2111'),
+(1014, '2312312'),
+(1015, '123456');
 
 -- --------------------------------------------------------
 
@@ -345,7 +361,7 @@ ALTER TABLE `worker`
 -- AUTO_INCREMENT for table `coordinate`
 --
 ALTER TABLE `coordinate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `drone`
@@ -375,7 +391,7 @@ ALTER TABLE `finestate`
 -- AUTO_INCREMENT for table `parkinglot`
 --
 ALTER TABLE `parkinglot`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `parkinglotstate`
@@ -393,7 +409,7 @@ ALTER TABLE `reservation`
 -- AUTO_INCREMENT for table `route`
 --
 ALTER TABLE `route`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1016;
 
 --
 -- AUTO_INCREMENT for table `worker`

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 
 namespace Drones.Models
 {
@@ -33,6 +34,9 @@ namespace Drones.Models
         {
             string sql = $"INSERT INTO `reservation` (`LicensePlate`, `OwnerPhoneNumbers`, `ReservationDate`, `ReservationDuration`, `fk_parkingLot`) VALUES ('{reservation.licensePlateNumber}'," +
                 $" '{reservation.ownerPhoneNumber}', '{reservation.reservationDate.ToString("yyyy-MM-dd HH:mm:ss.fff")}', '{reservation.reservationDuration}', '{reservation.fk_parkingLot}')";
+
+
+            Debug.WriteLine("sql: " + sql);
 
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);

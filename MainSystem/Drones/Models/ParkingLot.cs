@@ -24,7 +24,20 @@ namespace Drones.Models
         public int fk_RouteFrom { get; private set; }
         public int fk_RouteTo { get; private set; }
 
-        public ParkingLot(string address, int totalSpaces, int reservedSpaces, ParkingLotState state, int lotCheckTimeSpan, DateTime lastDroneVisit,int fk_Drone, int fk_RouteFrom, int fk_RouteTo)
+        public ParkingLot(string address, int totalSpaces, int reservedSpaces, ParkingLotState state, int lotCheckTimeSpan, DateTime lastDroneVisit, int fk_Drone, int fk_RouteFrom, int fk_RouteTo)
+        {
+            this.address = address;
+            this.totalSpaces = totalSpaces;
+            this.reservedSpaces = reservedSpaces;
+            this.state = state;
+            this.lotCheckTimeSpan = lotCheckTimeSpan;
+            this.lastDroneVisit = lastDroneVisit;
+            this.fk_Drone = fk_Drone;
+            this.fk_RouteFrom = fk_RouteFrom;
+            this.fk_RouteTo = fk_RouteTo;
+        }
+
+        public ParkingLot(int id, string address, int totalSpaces, int reservedSpaces, ParkingLotState state, int lotCheckTimeSpan, DateTime lastDroneVisit,int fk_Drone, int fk_RouteFrom, int fk_RouteTo)
         {
             this.id = id;
             this.address = address;

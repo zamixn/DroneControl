@@ -125,6 +125,7 @@ public class NewReservationActivity extends AppCompatActivity {
 
     void GetParkingLots() {
         String _url = url + "/parkingLot";
+        Log.i("GetParkingLots", _url);
         Request request = new Request.Builder()
                 .url(_url)
                 .build();
@@ -155,7 +156,7 @@ public class NewReservationActivity extends AppCompatActivity {
                             register_button.setEnabled(true);
                             }
                         });
-                        Log.d("response", l.address);
+                        Log.d("response", l.address + ", " + l.id);
                     }
                 }
             }

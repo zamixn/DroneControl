@@ -7,3 +7,6 @@ MainSystem/Drones/obj/
 MainSystem/Drones/bin/
 MainSystem/UserSubsytemAPI/obj/
 MainSystem/UserSubsytemAPI/bin/
+drone_app/.idea
+MainSystem/DroneControllerAPI/bin
+MainSystem/DroneControllerAPI/obj
