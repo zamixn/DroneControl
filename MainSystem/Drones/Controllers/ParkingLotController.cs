@@ -48,7 +48,7 @@ namespace Drones.Controllers
         }
         public IActionResult showReservations()
         {
-            return View();
+            return View("ParkingLotReservationsListView");
         }
         public IActionResult selectDelete()
         {

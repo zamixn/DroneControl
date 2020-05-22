@@ -1,29 +1,28 @@
 ﻿@model IEnumerable<Drones.Models.Reservation>
 
 @{
-    ViewData["Title"] = "ParkingLotReservationsListView";
+    ViewData["Title"] = "ParkingLotReservationListView";
 }
 
-<h2>ParkingLotReservationsListView</h2>
+<h2>ParkingLostReservationListView</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
+            <th>Automobilio numeris</th>
+            <th>Telefono numeris</th>
+            <th>Data</th>
+            <th>Trukmė</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+            <th>Sample</th>
+            <th>Sample</th>
+            <th>Sample</th>
+            <th>Sample</th>
+            <th></th>
         </tr>
-}
     </tbody>
 </table>
