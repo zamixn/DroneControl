@@ -45,7 +45,6 @@ namespace Drones.Controllers
             List<Drone> drones = Drone.getDroneList(); // <- this is a list, for erick
             return View("DroneListView", drones);
         }
-
         // drone route creation
         [HttpPost]
         public IActionResult checkInputFrom()
@@ -92,7 +91,6 @@ namespace Drones.Controllers
             List<ParkingLot> parkingLots = ParkingLot.SelectLots();
             return View("/Views/ParkingLot/ParkingLotListView.cshtml", parkingLots);
         }
-
         public IActionResult removeDrone(int id)
         {
             Drone.Delete(id);
@@ -169,6 +167,11 @@ namespace Drones.Controllers
                 Drone.UpdateState(drone, (int)DroneState.OnTheWayToLot);
                 ParkingLot.UpdateDroneVisitTime(lot.id);
             }
+        }
+        public IActionResult delete()
+        {
+            List<Drone> drones = Drone.getDroneList();
+            return View("DroneListView", drones);
         }
     }
 }

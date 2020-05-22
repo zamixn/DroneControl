@@ -37,6 +37,9 @@
             <td>
                 @*@Html.ActionLink("Šalinti", "removeDrone", "DroneSubsystem", new { id = item.id })*@
             </td>
+            <td>
+                <a asp-action="delete"><button class="btn btn-primary">Ištrinti</button></a>
+            </td>
         </tr>
 }
     </tbody>

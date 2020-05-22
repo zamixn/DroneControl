@@ -28,7 +28,6 @@ namespace Drones.Controllers
             List<ParkingLot> parkingLots = ParkingLot.SelectLots();
             return View("ParkingLotListView", parkingLots);
         }
-
         [HttpPost]
         public IActionResult confirmInformation()
         {
@@ -56,7 +55,8 @@ namespace Drones.Controllers
         }
         public IActionResult delete()
         {
-            return View();
+            List<ParkingLot> parkingLots = ParkingLot.SelectLots();
+            return View("ParkingLotListView", parkingLots);
         }
     }
 }
