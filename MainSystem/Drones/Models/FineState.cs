@@ -8,8 +8,8 @@ namespace Drones.Models
     public enum FineState
     {
         Formed,
-        NotPayed,
-        Payed,
+        NotPaid,
+        Paid,
         PassedOn,
     }
 }

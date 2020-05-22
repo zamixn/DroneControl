@@ -11,6 +11,7 @@ namespace Drones.Models
 {
     public class Reservation
     {
+        public int id { get; private set; }
         public string licensePlateNumber { get; private set; }
         public string ownerPhoneNumber { get; private set; }
         public DateTime reservationDate { get; private set; }
@@ -23,6 +24,7 @@ namespace Drones.Models
 
         public Reservation(string licensePlateNumber, string ownerPhoneNumber, DateTime reservationDate, TimeSpan reservationDuration, int fk_parkingLot)
         {
+            this.id = id;
             this.licensePlateNumber = licensePlateNumber;
             this.ownerPhoneNumber = ownerPhoneNumber;
             this.reservationDate = reservationDate;
@@ -46,9 +48,9 @@ namespace Drones.Models
             mySqlConnection.Close();
         }
 
-        public Reservation Select(string licensePlateNumber)
+        public static Reservation Select(string licensePlateNumber)
         {
-            string sql = $"SELECT * FROM reservation WHERE LicensePlate = {licensePlateNumber}";
+            string sql = $"SELECT * FROM reservation WHERE LicensePlate = \"{licensePlateNumber}\"";
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);
             MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
@@ -64,6 +66,7 @@ namespace Drones.Models
 
             Reservation reservation = new Reservation
             {
+                id = Convert.ToInt32(row["id"]),
                 licensePlateNumber = Convert.ToString(row["LicensePlate"]),
                 ownerPhoneNumber = Convert.ToString(row["OwnerPhoneNumbers"]),
                 reservationDate = Convert.ToDateTime(row["ReservationDate"]),

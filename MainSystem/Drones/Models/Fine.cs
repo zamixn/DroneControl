@@ -16,6 +16,17 @@ namespace Drones.Models
         public FineState state { get; private set; }
         public int fk_reservation { get; private set; }
 
+        public Fine()
+        {
+        }
+        public Fine(DateTime date, double sum, FineState state, int fk_reservation)
+        {
+            this.id = id;
+            this.date = date;
+            this.sum = sum;
+            this.state = state;
+            this.fk_reservation = fk_reservation;
+        }
 
         public List<Fine> GetFines()
         {
@@ -60,9 +71,9 @@ namespace Drones.Models
             return true;
         }
 
-        public void Create(Fine fine)
+        public static void Create(Fine fine)
         {
-            string sql = $"INSERT INTO `fine` (`Date`, `Sum`, `State`, `fk_reservation`) VALUES ('{fine.date}', '{fine.sum}', '{fine.state}', '{fine.fk_reservation}')";
+            string sql = $"INSERT INTO `fine` (`Date`, `Sum`, `State`, `fk_reservation`) VALUES ('{fine.date.ToString("yyyy-MM-dd HH:mm:ss.fff")}', '{fine.sum}', '{(int)fine.state + 1}', '{fine.fk_reservation}')";
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);
             MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);

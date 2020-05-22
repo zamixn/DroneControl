@@ -108,35 +108,46 @@ namespace Drones.Controllers
         public static List<string> plates = new List<string>();
         public static void receiveLicensePlateInfo()
         {
-            Thread t = new Thread(() =>
-            {
-                while (true)
-                {
-                    string py = "/c C:\\Python27\\python.exe server.py";
-                    ProcessStartInfo info = new ProcessStartInfo("cmd", py);
-                    info.CreateNoWindow = false;
-                    info.UseShellExecute = true;
-                    info.WindowStyle = ProcessWindowStyle.Hidden;
-                    var p = Process.Start(info);
-                    p.WaitForExit();
 
-                    //string plateFile = "plate.txt";
-                    //string plate = System.IO.File.ReadAllText(plateFile);
-                    //plates.Add(plate);
-                    //Debug.WriteLine("plate is: " + plate);
-
-                }
-            });
-            t.Start();
         }
         public IActionResult tempDroneForm()
         {
             return View("tempDroneForm", plates);
         }
 
-        public IActionResult validateNumber()
+        public static void validateNumber()
         {
-            return View();
+            string plate = "abc123";
+            Debug.WriteLine("=========================================================");
+            Reservation reservation = Reservation.Select(plate);
+
+            if(reservation == null)
+            {
+                Debug.WriteLine("=========================================================");
+                Debug.WriteLine("Reservation null");
+                Debug.WriteLine("Take loss");
+                Debug.WriteLine("=========================================================");
+            }
+            else
+            {
+                //Used for testing. Format(Year, Month, Day, Hour, Minute, Second)
+                //DateTime end = new DateTime(2020, 5, 22, 23, 50, 0);
+
+                DateTime start = reservation.reservationDate;
+                TimeSpan duration = reservation.reservationDuration;
+                DateTime end = start.Add(duration);
+
+                int result = DateTime.Compare(DateTime.Now, end);
+                if (result > 0)
+                {
+                    Fine fine = new Fine(DateTime.Now, 1000, FineState.Formed, reservation.id);
+                    Fine.Create(fine);
+                    //Debug.WriteLine("=========================================================");
+                    //Debug.WriteLine("You gonna get fined boy");
+                    //Debug.WriteLine("{0} {1}", DateTime.Now, end);
+                    //Debug.WriteLine("=========================================================");
+                }
+            }
         }
 
         public static void parkingLotDroneSender()
