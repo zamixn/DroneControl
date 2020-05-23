@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,20 +20,6 @@ namespace DroneControllerAPI.Controllers
     [ApiController]
     public class DroneController : ControllerBase
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/drone
         [HttpPost]
         public string Post()
@@ -53,7 +41,7 @@ namespace DroneControllerAPI.Controllers
             }
 
             Debug.WriteLine("Ending post");
-            return "succ";
+            return "success";
         }
 
         private string getBase64String(Image img)
@@ -141,16 +129,37 @@ namespace DroneControllerAPI.Controllers
             }
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public static void SendSignal(string data)
         {
-        }
+            string ip = "192.168.1.217";
+            int port = 8080;
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            Debug.WriteLine("Sending signal to drone");
+
+            try
+            {
+                IPAddress ipAddress = IPAddress.Parse(ip);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
+
+                // Create a TCP/IP socket.
+                Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                // Connect to the remote endpoint.
+                client.Connect(remoteEP);
+
+                data += "<EOF>";
+                // Send test data to the remote device.
+                client.Send(Encoding.UTF8.GetBytes(data));
+
+                // Release the socket.
+                client.Shutdown(SocketShutdown.Both);
+                client.Close();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
         }
     }
 }

@@ -175,14 +175,15 @@ namespace Drones.Controllers
             //Debug.WriteLine("=========================================================");
             return fine;
         }
+
         public static void parkingLotDroneSender()
         {
             System.Timers.Timer aTimer = new System.Timers.Timer();
-            aTimer.Elapsed += new ElapsedEventHandler(test);
-            aTimer.Interval = 10000; //PASITIKRINIMUI 10000. INTERVALA NUSTATYTI KAS 1 MIN - 60000
+            aTimer.Elapsed += new ElapsedEventHandler(SendSignalToDrone);
+            aTimer.Interval = 60000; // kas minute
             aTimer.Enabled = true;
         }
-        public static void test(object source, ElapsedEventArgs e)
+        public static void SendSignalToDrone(object source, ElapsedEventArgs e)
         {
             List<ParkingLot> lots = ParkingLot.SelectLots();
             foreach (ParkingLot lot in lots)
@@ -190,20 +191,23 @@ namespace Drones.Controllers
                 if (DateTime.Now - lot.lastDroneVisit > TimeSpan.FromMinutes(lot.lotCheckTimeSpan))
                 {
                     Drone drone = Drone.Select(lot.fk_Drone);
-                    sendDrone(lot, drone);
-                    Debug.WriteLine("Siusti drona i {0} aikstele", lot.address);
-                    Debug.WriteLine("=========================================================");               
+
+                    if (drone.state == DroneState.Charging)
+                    {
+                        Debug.WriteLine("Siusti drona i {0} aikstele", lot.address);
+                        Debug.WriteLine("=========================================================");
+
+                        Drone.UpdateState(drone, (int)DroneState.OnTheWayToLot);
+                        ParkingLot.UpdateDroneVisitTime(lot.id);
+
+                        string data = "skrisk"; // realiai butu marsrutas i aikstele
+                        DroneControllerAPI.Controllers.DroneController.SendSignal(data);
+                        Debug.WriteLine("=========================================================");
+                    }    
                 }
             }
         }
-        public static void sendDrone(ParkingLot lot, Drone drone)
-        {
-            if (drone.state == DroneState.Charging)
-            {
-                Drone.UpdateState(drone, (int)DroneState.OnTheWayToLot);
-                ParkingLot.UpdateDroneVisitTime(lot.id);
-            }
-        }
+
         public IActionResult delete()
         {
             List<Drone> drones = Drone.getDroneList();

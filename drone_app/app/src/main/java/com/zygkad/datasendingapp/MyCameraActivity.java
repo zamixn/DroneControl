@@ -63,6 +63,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.security.cert.CertificateException;
@@ -186,6 +188,8 @@ public class MyCameraActivity extends Activity {
                 takePicture();
             }
         });
+
+        ListenForSignal();
     }
 
     @Override
@@ -508,5 +512,55 @@ public class MyCameraActivity extends Activity {
         } catch (final IOException e) {
             return "did not work";
         }
+    }
+
+
+    private boolean end = false;
+    private void ListenForSignal()
+    {
+        Thread thread = new Thread(new Runnable() {
+            private String stringData = null;
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Log.i("Socket_Connection", "listening for connection");
+                        ServerSocket ss = new ServerSocket(8080);
+                        while (!end) {
+                            Socket s = ss.accept();
+                            BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                            PrintWriter output = new PrintWriter(s.getOutputStream());
+
+                            stringData = input.readLine();
+                            output.println("FROM SERVER - " + stringData.toUpperCase());
+                            output.flush();
+
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            Log.i("Socket_Connection", "Received_data: " + stringData);
+
+                            if (stringData.contains("<EOF>")) {
+                                end = true;
+                                output.close();
+                                s.close();
+                                break;
+                            }
+
+                            output.close();
+                            s.close();
+                        }
+                        ss.close();
+                    } catch(IOException e){
+                        e.printStackTrace();
+                    }
+                    end = false;
+                }
+            }
+        });
+        thread.start();
     }
 }

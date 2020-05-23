@@ -58,13 +58,6 @@ namespace UserSubsytemAPI.Controllers
             return JsonConvert.SerializeObject(lots);
         }
 
-        // GET api/parkingLot/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/parkingLot
         [HttpPost]
         public string Post([FromBody] string content)
@@ -81,18 +74,6 @@ namespace UserSubsytemAPI.Controllers
             Reservation.Insert(reservation);
 
             return string.Format("hours: {0}, minutes:{1}, lot:{2}, plate:{3}, number:{4}", hours, minutes, parkingLot, licensePlate, phoneNumber);
-        }
-
-        // PUT api/parkingLot/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/parkingLot/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
