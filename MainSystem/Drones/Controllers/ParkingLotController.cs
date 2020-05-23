@@ -40,7 +40,7 @@ namespace Drones.Controllers
             int fk_drone = Drone.getDroneIdFromName(selectedDrone);
             int checkInterval = int.Parse(Request.Form["checkTimeSpan"]);
             DateTime lastVisit = DateTime.Parse(Request.Form["lastDroneVisit"]);
-            ParkingLot.Create(new ParkingLot(adress, totalSpaces, reservedSpaces, state, checkInterval, lastVisit, fk_drone, 999, 1000));
+            ParkingLot.Create(new ParkingLot(adress, totalSpaces, reservedSpaces, state, checkInterval, lastVisit, fk_drone, -1, -1));
 
             //// create parking lot
             return View("/Views/DroneSubsystem/DroneRouteFormFromView.cshtml");

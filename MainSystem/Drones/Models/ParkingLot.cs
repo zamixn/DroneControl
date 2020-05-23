@@ -57,8 +57,8 @@ namespace Drones.Models
 
         public static void Create(ParkingLot parkingLot)
         {
-            string sql = $"INSERT INTO `parkinglot` (`Address`, `TotalSpaces`, `ReservedSpaces`, `State`, `fk_Drone`, `fk_RouteFrom`, `fk_RouteTo`, `numberCheckTimeSpan`, `lastDroneVisit`) VALUES ('{parkingLot.address}', '{parkingLot.totalSpaces}', '{parkingLot.reservedSpaces}', " +
-                $"'{(int)parkingLot.state}', '{parkingLot.fk_Drone}', '{parkingLot.fk_RouteFrom}', '{parkingLot.fk_RouteTo}', '{parkingLot.lotCheckTimeSpan}', '{parkingLot.lastDroneVisit}')";
+            string sql = $"INSERT INTO `parkinglot` (`Address`, `TotalSpaces`, `ReservedSpaces`, `State`, `fk_Drone`, `numberCheckTimeSpan`, `lastDroneVisit`) VALUES ('{parkingLot.address}', '{parkingLot.totalSpaces}', '{parkingLot.reservedSpaces}', " +
+                $"'{(int)parkingLot.state}', '{parkingLot.fk_Drone}', '{parkingLot.lotCheckTimeSpan}', '{parkingLot.lastDroneVisit}')";
             Debug.WriteLine(sql);
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);
@@ -94,8 +94,8 @@ namespace Drones.Models
                     lotCheckTimeSpan = Convert.ToInt32(row["numberCheckTimeSpan"]),
                     lastDroneVisit = DBNull.Value != row["lastDroneVisit"] ? Convert.ToDateTime(row["lastDroneVisit"]) : DateTime.MinValue,
                     fk_Drone = Convert.ToInt32(row["fk_Drone"]),
-                    fk_RouteFrom = Convert.ToInt32(row["fk_RouteFrom"]),
-                    fk_RouteTo = Convert.ToInt32(row["fk_RouteTo"])
+                    fk_RouteFrom = row["fk_RouteFrom"] == DBNull.Value ? -1 : Convert.ToInt32(row["fk_RouteFrom"]),
+                    fk_RouteTo = row["fk_RouteTo"] == DBNull.Value ? -1 : Convert.ToInt32(row["fk_RouteTo"])
 
                 };
 
@@ -142,24 +142,62 @@ namespace Drones.Models
 
         public static void UpdateRouteFrom(int fk_route)
         {
-            string sqlquery = $"UPDATE  `parkinglot` set `fk_RouteFrom`= {fk_route} WHERE id = (select max(id) from `parkinglot`)";
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);
-            MySqlCommand mySqlCommand = new MySqlCommand(sqlquery, mySqlConnection);
+
+            string maxIDQuery = "select max(id) from `parkinglot`";
+            MySqlCommand mySqlCommand = new MySqlCommand(maxIDQuery, mySqlConnection);
             mySqlConnection.Open();
             mySqlCommand.ExecuteNonQuery();
             mySqlConnection.Close();
+            MySqlDataAdapter mda = new MySqlDataAdapter(mySqlCommand);
+            DataTable dt = new DataTable();
+            mda.Fill(dt);
+            mySqlConnection.Close();
+            mda.Dispose();
+
+            int maxID = -1;
+            foreach (DataRow row in dt.Rows)
+            {
+                maxID = Convert.ToInt32(row["max(id)"]);
+            }
+
+            string sqlquery = $"UPDATE  `parkinglot` set `fk_RouteFrom`= {fk_route} WHERE id = {maxID}";
+            MySqlConnection mySqlConnection2 = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand2 = new MySqlCommand(sqlquery, mySqlConnection2);
+            mySqlConnection2.Open();
+            mySqlCommand2.ExecuteNonQuery();
+            mySqlConnection2.Close();
         }
 
         public static void UpdateRouteTo(int fk_route)
         {
-            string sqlquery = $"UPDATE  `parkinglot` set `fk_RouteTo`= {fk_route} WHERE id = (select max(id) from `parkinglot`)";
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);
-            MySqlCommand mySqlCommand = new MySqlCommand(sqlquery, mySqlConnection);
+
+            string maxIDQuery = "select max(id) from `parkinglot`";
+            MySqlCommand mySqlCommand = new MySqlCommand(maxIDQuery, mySqlConnection);
             mySqlConnection.Open();
             mySqlCommand.ExecuteNonQuery();
             mySqlConnection.Close();
+            MySqlDataAdapter mda = new MySqlDataAdapter(mySqlCommand);
+            DataTable dt = new DataTable();
+            mda.Fill(dt);
+            mySqlConnection.Close();
+            mda.Dispose();
+
+            int maxID = -1;
+            foreach (DataRow row in dt.Rows)
+            {
+                maxID = Convert.ToInt32(row["max(id)"]);
+            }
+
+            string sqlquery = $"UPDATE  `parkinglot` set `fk_RouteTo`= {fk_route} WHERE id = {maxID}";
+            MySqlConnection mySqlConnection2 = new MySqlConnection(conn);
+            MySqlCommand mySqlCommand2 = new MySqlCommand(sqlquery, mySqlConnection2);
+            mySqlConnection2.Open();
+            mySqlCommand2.ExecuteNonQuery();
+            mySqlConnection2.Close();
         }
         public static bool UpdateDroneVisitTime(int id, DateTime dt)
         {
