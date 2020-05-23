@@ -118,7 +118,6 @@ namespace Drones.Controllers
         public static void validateNumber()
         {
             string plate = "abc123";
-            Debug.WriteLine("=========================================================");
             Reservation reservation = Reservation.Select(plate);
 
             if(reservation == null)
@@ -140,8 +139,26 @@ namespace Drones.Controllers
                 int result = DateTime.Compare(DateTime.Now, end);
                 if (result > 0)
                 {
-                    Fine fine = new Fine(DateTime.Now, 1000, FineState.Formed, reservation.id);
-                    Fine.Create(fine);
+                    TimeSpan time = DateTime.Now.Subtract(end);
+                    Fine fine = Fine.SelectByReservation(reservation.id);
+
+                    //Debug.WriteLine("=========================================================");
+                    //Debug.WriteLine("Time spent");
+                    //Debug.WriteLine(time.TotalMinutes);
+                    //Debug.WriteLine("=========================================================");
+                    if (fine == null)
+                    {
+                        fine = new Fine(DateTime.Now, GetFineAmmount(time), FineState.Formed, reservation.id);
+                        Fine.Create(fine);
+                    }
+                    else
+                    {
+                        Fine.UpdateFineSum(fine, GetFineAmmount(time));
+                        //Debug.WriteLine("=========================================================");
+                        //Debug.WriteLine("Minutes");
+                        //Debug.WriteLine(duration.TotalMinutes);
+                        //Debug.WriteLine("=========================================================");
+                    }
                     //Debug.WriteLine("=========================================================");
                     //Debug.WriteLine("You gonna get fined boy");
                     //Debug.WriteLine("{0} {1}", DateTime.Now, end);
@@ -149,7 +166,15 @@ namespace Drones.Controllers
                 }
             }
         }
-
+        public static double GetFineAmmount(TimeSpan duration)
+        {
+            double fine = duration.TotalMinutes * 0.2;
+            //Debug.WriteLine("=========================================================");
+            //Debug.WriteLine("Fine ammount");
+            //Debug.WriteLine(fine);
+            //Debug.WriteLine("=========================================================");
+            return fine;
+        }
         public static void parkingLotDroneSender()
         {
             System.Timers.Timer aTimer = new System.Timers.Timer();
