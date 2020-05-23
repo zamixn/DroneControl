@@ -28,7 +28,6 @@ namespace Drones
 
             Controllers.DroneSubsystemController.receiveLicensePlateInfo();
             Controllers.DroneSubsystemController.parkingLotDroneSender();
-            //Controllers.DroneSubsystemController.validateNumber(); //Testing number validation
         }
 
         public IConfiguration Configuration { get; }

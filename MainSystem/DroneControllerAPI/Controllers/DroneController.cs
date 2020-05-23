@@ -20,6 +20,12 @@ namespace DroneControllerAPI.Controllers
     [ApiController]
     public class DroneController : ControllerBase
     {
+        [HttpGet]
+        public ActionResult<IEnumerable<string>> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
         // POST api/drone
         [HttpPost]
         public string Post()
@@ -35,8 +41,8 @@ namespace DroneControllerAPI.Controllers
             {
                 img = Image.FromStream(ms);
                 string imgPath = Path.Combine(Directory.GetCurrentDirectory(), "image.jpeg");
-                Debug.WriteLine("Saving image in: " + imgPath);
-                img.Save(imgPath);
+                //Debug.WriteLine("Saving image in: " + imgPath);
+                //img.Save(imgPath);
                 GetLicensePlate(getBase64String(img));
             }
 
@@ -64,6 +70,9 @@ namespace DroneControllerAPI.Controllers
 
             Thread t = new Thread(async () =>
             {
+                //Debug.WriteLine("UNCOMMENT THIS FOR TESTING");
+                //string plate = "SA335C0";
+
                 var client = new HttpClient();
                 StringContent content = new StringContent(base64);
                 HttpResponseMessage reponse = await client.PostAsync(url, content);
@@ -71,6 +80,9 @@ namespace DroneControllerAPI.Controllers
                 string json = Encoding.UTF8.GetString(res);
 
                 string plate = (string)JObject.Parse(json)["results"][0]["plate"];
+
+                if(plate != null && plate != "")
+                    Drones.Controllers.DroneSubsystemController.ValidateNumber(plate);
 
                 Debug.WriteLine(plate);
             });
@@ -126,39 +138,6 @@ namespace DroneControllerAPI.Controllers
                 {
                     stream.Position = originalPosition;
                 }
-            }
-        }
-
-        public static void SendSignal(string data)
-        {
-            string ip = "192.168.1.217";
-            int port = 8080;
-
-            Debug.WriteLine("Sending signal to drone");
-
-            try
-            {
-                IPAddress ipAddress = IPAddress.Parse(ip);
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
-
-                // Create a TCP/IP socket.
-                Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-                // Connect to the remote endpoint.
-                client.Connect(remoteEP);
-
-                data += "<EOF>";
-                // Send test data to the remote device.
-                client.Send(Encoding.UTF8.GetBytes(data));
-
-                // Release the socket.
-                client.Shutdown(SocketShutdown.Both);
-                client.Close();
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
             }
         }
     }

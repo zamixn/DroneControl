@@ -47,7 +47,7 @@ namespace Drones.Models
             {
                 id = Convert.ToInt32(row["id"]),
                 model = Convert.ToString(row["model"]),
-                state = (DroneState)(Convert.ToInt32(row["State"]) - 1),
+                state = (DroneState)(Convert.ToInt32(row["State"])),
                 batteryRemaining = Convert.ToDouble(row["BatteryRemaining"])
             };
 
@@ -70,7 +70,7 @@ namespace Drones.Models
 
         public static bool Create(Drone drone)
         {
-            string sql = $"INSERT INTO `drone` (`model`, `BatteryRemaining`, `State`) VALUES ('{drone.model}', '{drone.batteryRemaining}', '{((int)drone.state + 1)}')";
+            string sql = $"INSERT INTO `drone` (`model`, `BatteryRemaining`, `State`) VALUES ('{drone.model}', '{drone.batteryRemaining}', '{((int)drone.state)}')";
             string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
             MySqlConnection mySqlConnection = new MySqlConnection(conn);
             MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
@@ -103,7 +103,7 @@ namespace Drones.Models
                 {
                     id = Convert.ToInt32(row["id"]),
                     model = Convert.ToString(row["model"]),
-                    state = (DroneState)(Convert.ToInt32(row["State"]) - 1),
+                    state = (DroneState)(Convert.ToInt32(row["State"])),
                     batteryRemaining = Convert.ToDouble(row["BatteryRemaining"])
                 };
 
@@ -176,7 +176,7 @@ namespace Drones.Models
                 {
                     id = Convert.ToInt32(row["id"]),
                     model = Convert.ToString(row["model"]),
-                    state = (DroneState)(Convert.ToInt32(row["State"]) - 1),
+                    state = (DroneState)(Convert.ToInt32(row["State"])),
                     batteryRemaining = Convert.ToDouble(row["BatteryRemaining"])
                 };
 

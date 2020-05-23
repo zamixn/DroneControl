@@ -70,7 +70,7 @@ namespace UserSubsytemAPI.Controllers
             string licensePlate = jsonObject.SelectToken("licensePlate").ToObject<string>();
             string phoneNumber = jsonObject.SelectToken("phoneNumber").ToObject<string>();
 
-            Reservation reservation = new Reservation(licensePlate, phoneNumber, DateTime.UtcNow, new TimeSpan(hours, minutes, 0), parkingLot);
+            Reservation reservation = new Reservation(licensePlate, phoneNumber, DateTime.Now, new TimeSpan(hours, minutes, 0), parkingLot);
             Reservation.Insert(reservation);
 
             return string.Format("hours: {0}, minutes:{1}, lot:{2}, plate:{3}, number:{4}", hours, minutes, parkingLot, licensePlate, phoneNumber);

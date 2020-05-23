@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +18,12 @@ namespace DroneControllerAPI
     {
         public Startup(IConfiguration configuration)
         {
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.ConnectionStrings.ConnectionStrings.Remove("MysqlConnection");
+            config.ConnectionStrings.ConnectionStrings.Add(new ConnectionStringSettings("MysqlConnection", "Data Source=localhost;port=3306;Initial Catalog=drone_control_v1; User Id=root;password=;SslMode=none;convert zero datetime=True"));
+            //config.ConnectionStrings.ConnectionStrings.Add(new ConnectionStringSettings("MysqlConnection", "Data Source=verynicedatabase.000webhostapp.com;port=3306;Initial Catalog=id13561070_drones; User Id=id13561070_root;password=Abc123456789*;SslMode=none;convert zero datetime=True"));
+            config.Save(ConfigurationSaveMode.Modified);
+
             Configuration = configuration;
         }
 

@@ -161,9 +161,9 @@ namespace Drones.Models
             mySqlCommand.ExecuteNonQuery();
             mySqlConnection.Close();
         }
-        public static bool UpdateDroneVisitTime(int id)
+        public static bool UpdateDroneVisitTime(int id, DateTime dt)
         {
-            string sql = $"UPDATE parkinglot SET parkingLot.lastDroneVisit = '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}' WHERE parkingLot.id = '{id}'";
+            string sql = $"UPDATE parkinglot SET parkingLot.lastDroneVisit = '{dt.ToString("yyyy-MM-dd HH:mm:ss.fff")}' WHERE parkingLot.id = '{id}'";
 
             Debug.WriteLine(sql);
             Debug.WriteLine("==========================");

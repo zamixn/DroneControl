@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Drones.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Drones.Controllers
 {
@@ -115,12 +116,12 @@ namespace Drones.Controllers
             return View("tempDroneForm", plates);
         }
 
-        public static void validateNumber()
+        public static void ValidateNumber(string plate)
         {
-            string plate = "abc123";
             Reservation reservation = Reservation.Select(plate);
+            Debug.WriteLine("ValidateNumber");
 
-            if(reservation == null)
+            if (reservation == null)
             {
                 Debug.WriteLine("=========================================================");
                 Debug.WriteLine("Reservation null");
@@ -129,6 +130,9 @@ namespace Drones.Controllers
             }
             else
             {
+                Debug.WriteLine("=========================================================");
+                Debug.WriteLine("Reservation not null");
+
                 //Used for testing. Format(Year, Month, Day, Hour, Minute, Second)
                 //DateTime end = new DateTime(2020, 5, 22, 23, 50, 0);
 
@@ -139,6 +143,11 @@ namespace Drones.Controllers
                 int result = DateTime.Compare(DateTime.Now, end);
                 if (result > 0)
                 {
+                    Debug.WriteLine("=========================================================");
+                    Debug.WriteLine("You gonna get fined boy");
+                    Debug.WriteLine("{0} {1}", DateTime.Now, end);
+                    Debug.WriteLine("=========================================================");
+
                     TimeSpan time = DateTime.Now.Subtract(end);
                     Fine fine = Fine.SelectByReservation(reservation.id);
 
@@ -159,10 +168,6 @@ namespace Drones.Controllers
                         //Debug.WriteLine(duration.TotalMinutes);
                         //Debug.WriteLine("=========================================================");
                     }
-                    //Debug.WriteLine("=========================================================");
-                    //Debug.WriteLine("You gonna get fined boy");
-                    //Debug.WriteLine("{0} {1}", DateTime.Now, end);
-                    //Debug.WriteLine("=========================================================");
                 }
             }
         }
@@ -179,34 +184,79 @@ namespace Drones.Controllers
         public static void parkingLotDroneSender()
         {
             System.Timers.Timer aTimer = new System.Timers.Timer();
+            SendSignalToDrone(null, null);
             aTimer.Elapsed += new ElapsedEventHandler(SendSignalToDrone);
             aTimer.Interval = 60000; // kas minute
             aTimer.Enabled = true;
         }
         public static void SendSignalToDrone(object source, ElapsedEventArgs e)
         {
+            Debug.WriteLine("SendSignalToDrone");
+            Debug.WriteLine("=========================================================");
             List<ParkingLot> lots = ParkingLot.SelectLots();
             foreach (ParkingLot lot in lots)
             {
-                if (DateTime.Now - lot.lastDroneVisit > TimeSpan.FromMinutes(lot.lotCheckTimeSpan))
+                if (lot.state == ParkingLotState.Open)
                 {
-                    Drone drone = Drone.Select(lot.fk_Drone);
-
-                    if (drone.state == DroneState.Charging)
+                    if (DateTime.Now - lot.lastDroneVisit > TimeSpan.FromMinutes(lot.lotCheckTimeSpan))
                     {
-                        Debug.WriteLine("Siusti drona i {0} aikstele", lot.address);
-                        Debug.WriteLine("=========================================================");
+                        Drone drone = Drone.Select(lot.fk_Drone);
 
-                        Drone.UpdateState(drone, (int)DroneState.OnTheWayToLot);
-                        ParkingLot.UpdateDroneVisitTime(lot.id);
+                        if (drone.state == DroneState.Charging)
+                        {
+                            Debug.WriteLine("Siusti drona i {0} aikstele", lot.address);
+                            Debug.WriteLine("=========================================================");
 
-                        string data = "skrisk"; // realiai butu marsrutas i aikstele
-                        DroneControllerAPI.Controllers.DroneController.SendSignal(data);
-                        Debug.WriteLine("=========================================================");
-                    }    
+                            string data = "skrisk"; // realiai butu marsrutas i aikstele
+                            SendSignal(data);
+
+                            Drone.UpdateState(drone, (int)DroneState.OnTheWayToLot);
+                            ParkingLot.UpdateDroneVisitTime(lot.id, DateTime.Now);
+
+                            // TESTAVIMUI: realiai dronas taps charhing, kai sugris i baze
+                            Drone.UpdateState(drone, (int)DroneState.Charging);
+                            // TESTAVIMUI: realiai 
+                            ParkingLot.UpdateDroneVisitTime(lot.id, DateTime.Now.AddYears(-200));
+
+                            Debug.WriteLine("=========================================================");
+                        }
+                    }
                 }
             }
         }
+        public static void SendSignal(string data)
+        {
+            string ip = "192.168.1.217";
+            int port = 8080;
+
+            Debug.WriteLine("Sending signal to drone");
+
+            try
+            {
+                IPAddress ipAddress = IPAddress.Parse(ip);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
+
+                // Create a TCP/IP socket.
+                Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                // Connect to the remote endpoint.
+                client.Connect(remoteEP);
+
+                data += "<EOF>";
+                // Send test data to the remote device.
+                client.Send(Encoding.UTF8.GetBytes(data));
+
+                // Release the socket.
+                client.Shutdown(SocketShutdown.Both);
+                client.Close();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
+
 
         public IActionResult delete()
         {
