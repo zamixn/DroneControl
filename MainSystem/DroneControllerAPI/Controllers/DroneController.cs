@@ -28,7 +28,7 @@ namespace DroneControllerAPI.Controllers
 
         // POST api/drone
         [HttpPost]
-        public string Post()
+        public string PostImage()
         {
             Debug.WriteLine("Received post");
 
