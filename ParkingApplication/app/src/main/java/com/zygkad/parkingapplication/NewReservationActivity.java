@@ -72,27 +72,33 @@ public class NewReservationActivity extends AppCompatActivity {
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int hours = timePicker.getHour();
-                int minutes = timePicker.getMinute();
-                if(hours == 0 && minutes == 0)
-                    Toast.makeText(activity, "Nepasirinkta trukmė", Toast.LENGTH_SHORT).show();
-                else {
-                    if (parkingLotSpinner.getSelectedItemPosition() == 0)
-                        Toast.makeText(activity, "Aikštelė nepasirinkta!", Toast.LENGTH_SHORT).show();
-                    else {
-                        String selectedParkingLot = parkingLotSpinner.getSelectedItem().toString();
-
-                        String licensePlate = LoginActivity.LicensePlate;
-                        String phoneNumber = LoginActivity.PhoneNumber;
-
-                        PostParkingLotRegistration(hours, minutes, String.valueOf(lotIds.get(selectedParkingLot)), licensePlate, phoneNumber);
-                    }
-                }
+                SubmitReservation();
             }
         });
         register_button.setEnabled(false);
 
         GetParkingLots();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void SubmitReservation()
+    {
+        int hours = timePicker.getHour();
+        int minutes = timePicker.getMinute();
+        if(hours == 0 && minutes == 0)
+            Toast.makeText(activity, "Nepasirinkta trukmė", Toast.LENGTH_SHORT).show();
+        else {
+            if (parkingLotSpinner.getSelectedItemPosition() == 0)
+                Toast.makeText(activity, "Aikštelė nepasirinkta!", Toast.LENGTH_SHORT).show();
+            else {
+                String selectedParkingLot = parkingLotSpinner.getSelectedItem().toString();
+
+                String licensePlate = LoginActivity.LicensePlate;
+                String phoneNumber = LoginActivity.PhoneNumber;
+
+                PostParkingLotRegistration(hours, minutes, String.valueOf(lotIds.get(selectedParkingLot)), licensePlate, phoneNumber);
+            }
+        }
     }
 
     void PostParkingLotRegistration(int hours, int minutes, String selectedParkingLot, String licensePlate, String phoneNumber)
@@ -117,6 +123,12 @@ public class NewReservationActivity extends AppCompatActivity {
         IndexActivity.client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(activity, "Nepavyko, mėginkite dar kartą", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 e.printStackTrace();
             }
 

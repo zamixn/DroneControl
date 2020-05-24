@@ -24,37 +24,38 @@ namespace UserSubsytemAPI.Controllers
         [HttpGet]
         public ActionResult<string> Get()
         {
-            string sql = $"SELECT * FROM parkinglot";
-            string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
-            MySqlConnection mySqlConnection = new MySqlConnection(conn);
-            MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
-            mySqlConnection.Open();
-            MySqlDataAdapter mda = new MySqlDataAdapter(mySqlCommand);
-            DataTable dt = new DataTable();
-            mda.Fill(dt);
-            mySqlConnection.Close();
-            mda.Dispose();
+            //string sql = $"SELECT * FROM parkinglot";
+            //string conn = ConfigurationManager.ConnectionStrings["MysqlConnection"].ConnectionString;
+            //MySqlConnection mySqlConnection = new MySqlConnection(conn);
+            //MySqlCommand mySqlCommand = new MySqlCommand(sql, mySqlConnection);
+            //mySqlConnection.Open();
+            //MySqlDataAdapter mda = new MySqlDataAdapter(mySqlCommand);
+            //DataTable dt = new DataTable();
+            //mda.Fill(dt);
+            //mySqlConnection.Close();
+            //mda.Dispose();
 
-            List<ParkingLot> lots = new List<ParkingLot>();
-            foreach (DataRow row in dt.Rows)
-            {
-                ParkingLot parkingLot = new ParkingLot
-                    (
-                    id: row["id"] != System.DBNull.Value ? Convert.ToInt32(row["id"]) : -1,
-                    address: row["Address"] != System.DBNull.Value ? Convert.ToString(row["Address"]) : "",
-                    totalSpaces: row["TotalSpaces"] != System.DBNull.Value ? Convert.ToInt32(row["TotalSpaces"]) : -1,
-                    reservedSpaces: row["ReservedSpaces"] != System.DBNull.Value ? Convert.ToInt32(row["ReservedSpaces"]) : -1,
-                    state: row["State"] != System.DBNull.Value ? (ParkingLotState)Convert.ToInt32(row["State"]) : ParkingLotState.Closed,
-                    fk_Drone: row["fk_Drone"] != System.DBNull.Value ? Convert.ToInt32(row["fk_Drone"]) : -1,
-                    fk_RouteFrom: row["fk_RouteFrom"] != System.DBNull.Value ? Convert.ToInt32(row["fk_RouteFrom"]) : -1,
-                    fk_RouteTo: row["fk_RouteTo"] != System.DBNull.Value ? Convert.ToInt32(row["fk_RouteTo"]) : -1,
-                    lotCheckTimeSpan: row["NumberCheckTimeSpan"] != System.DBNull.Value ? Convert.ToInt32(row["NumberCheckTimeSpan"]) : -1,
-                    lastDroneVisit: row["lastDroneVisit"] != System.DBNull.Value ? Convert.ToDateTime(row["lastDroneVisit"]) : new DateTime(1, 1, 1, 0, 0, 0)
-                    );
+            //List<ParkingLot> lots = new List<ParkingLot>();
+            //foreach (DataRow row in dt.Rows)
+            //{
+            //    ParkingLot parkingLot = new ParkingLot
+            //        (
+            //        id: row["id"] != System.DBNull.Value ? Convert.ToInt32(row["id"]) : -1,
+            //        address: row["Address"] != System.DBNull.Value ? Convert.ToString(row["Address"]) : "",
+            //        totalSpaces: row["TotalSpaces"] != System.DBNull.Value ? Convert.ToInt32(row["TotalSpaces"]) : -1,
+            //        reservedSpaces: row["ReservedSpaces"] != System.DBNull.Value ? Convert.ToInt32(row["ReservedSpaces"]) : -1,
+            //        state: row["State"] != System.DBNull.Value ? (ParkingLotState)Convert.ToInt32(row["State"]) : ParkingLotState.Closed,
+            //        fk_Drone: row["fk_Drone"] != System.DBNull.Value ? Convert.ToInt32(row["fk_Drone"]) : -1,
+            //        fk_RouteFrom: row["fk_RouteFrom"] != System.DBNull.Value ? Convert.ToInt32(row["fk_RouteFrom"]) : -1,
+            //        fk_RouteTo: row["fk_RouteTo"] != System.DBNull.Value ? Convert.ToInt32(row["fk_RouteTo"]) : -1,
+            //        lotCheckTimeSpan: row["NumberCheckTimeSpan"] != System.DBNull.Value ? Convert.ToInt32(row["NumberCheckTimeSpan"]) : -1,
+            //        lastDroneVisit: row["lastDroneVisit"] != System.DBNull.Value ? Convert.ToDateTime(row["lastDroneVisit"]) : new DateTime(1, 1, 1, 0, 0, 0)
+            //        );
 
-                lots.Add(parkingLot);
-            }
+            //    lots.Add(parkingLot);
+            //}
 
+            List<ParkingLot> lots = ParkingLot.SelectLots();
             return JsonConvert.SerializeObject(lots);
         }
 
