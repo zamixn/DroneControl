@@ -126,6 +126,7 @@ namespace Drones.Controllers
                 Debug.WriteLine("=========================================================");
                 Debug.WriteLine("Reservation null");
                 Debug.WriteLine("Take loss");
+                TowCar(plate);
                 Debug.WriteLine("=========================================================");
             }
             else
@@ -135,44 +136,51 @@ namespace Drones.Controllers
 
                 //Used for testing. Format(Year, Month, Day, Hour, Minute, Second)
                 //DateTime end = new DateTime(2020, 5, 22, 23, 50, 0);
-                CreateFine(reservation);
+
+                DateTime start = reservation.reservationDate;
+                TimeSpan duration = reservation.reservationDuration;
+                DateTime end = start.Add(duration);
+
+                int result = DateTime.Compare(DateTime.Now, end);
+                if (result > 0)
+                {
+                    CreateFine(reservation, end);
+                }
             }
         }
-        public static void CreateFine(Reservation reservation)
+        private static void TowCar(string plate)
         {
+            // to be implemented
+            // tow car
+        }
 
-            DateTime start = reservation.reservationDate;
-            TimeSpan duration = reservation.reservationDuration;
-            DateTime end = start.Add(duration);
 
-            int result = DateTime.Compare(DateTime.Now, end);
-            if (result > 0)
+        public static void CreateFine(Reservation reservation, DateTime end)
+        {
+            Debug.WriteLine("=========================================================");
+            Debug.WriteLine("You gonna get fined boy");
+            Debug.WriteLine("{0} {1}", DateTime.Now, end);
+            Debug.WriteLine("=========================================================");
+
+            TimeSpan time = DateTime.Now.Subtract(end);
+            Fine fine = Fine.SelectByReservation(reservation.id);
+
+            //Debug.WriteLine("=========================================================");
+            //Debug.WriteLine("Time spent");
+            //Debug.WriteLine(time.TotalMinutes);
+            //Debug.WriteLine("=========================================================");
+            if (fine == null)
             {
-                Debug.WriteLine("=========================================================");
-                Debug.WriteLine("You gonna get fined boy");
-                Debug.WriteLine("{0} {1}", DateTime.Now, end);
-                Debug.WriteLine("=========================================================");
-
-                TimeSpan time = DateTime.Now.Subtract(end);
-                Fine fine = Fine.SelectByReservation(reservation.id);
-
+                fine = new Fine(DateTime.Now, GetFineAmmount(time), FineState.Formed, reservation.id);
+                Fine.Create(fine);
+            }
+            else
+            {
+                Fine.UpdateFineSum(fine, GetFineAmmount(time));
                 //Debug.WriteLine("=========================================================");
-                //Debug.WriteLine("Time spent");
-                //Debug.WriteLine(time.TotalMinutes);
+                //Debug.WriteLine("Minutes");
+                //Debug.WriteLine(duration.TotalMinutes);
                 //Debug.WriteLine("=========================================================");
-                if (fine == null)
-                {
-                    fine = new Fine(DateTime.Now, GetFineAmmount(time), FineState.Formed, reservation.id);
-                    Fine.Create(fine);
-                }
-                else
-                {
-                    Fine.UpdateFineSum(fine, GetFineAmmount(time));
-                    //Debug.WriteLine("=========================================================");
-                    //Debug.WriteLine("Minutes");
-                    //Debug.WriteLine(duration.TotalMinutes);
-                    //Debug.WriteLine("=========================================================");
-                }
             }
         }
         public static double GetFineAmmount(TimeSpan duration)
@@ -218,9 +226,9 @@ namespace Drones.Controllers
                             ParkingLot.UpdateDroneVisitTime(lot.id, DateTime.Now);
 
                             // TESTAVIMUI: realiai dronas taps charhing, kai sugris i baze
-                            Drone.UpdateState(drone, (int)DroneState.Charging);
+                            //Drone.UpdateState(drone, (int)DroneState.Charging);
                             // TESTAVIMUI: realiai 
-                            ParkingLot.UpdateDroneVisitTime(lot.id, DateTime.Now.AddYears(-200));
+                            //ParkingLot.UpdateDroneVisitTime(lot.id, DateTime.Now.AddYears(-200));
 
                             Debug.WriteLine("=========================================================");
                         }
