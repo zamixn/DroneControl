@@ -135,39 +135,43 @@ namespace Drones.Controllers
 
                 //Used for testing. Format(Year, Month, Day, Hour, Minute, Second)
                 //DateTime end = new DateTime(2020, 5, 22, 23, 50, 0);
+                CreateFine(reservation);
+            }
+        }
+        public static void CreateFine(Reservation reservation)
+        {
 
-                DateTime start = reservation.reservationDate;
-                TimeSpan duration = reservation.reservationDuration;
-                DateTime end = start.Add(duration);
+            DateTime start = reservation.reservationDate;
+            TimeSpan duration = reservation.reservationDuration;
+            DateTime end = start.Add(duration);
 
-                int result = DateTime.Compare(DateTime.Now, end);
-                if (result > 0)
+            int result = DateTime.Compare(DateTime.Now, end);
+            if (result > 0)
+            {
+                Debug.WriteLine("=========================================================");
+                Debug.WriteLine("You gonna get fined boy");
+                Debug.WriteLine("{0} {1}", DateTime.Now, end);
+                Debug.WriteLine("=========================================================");
+
+                TimeSpan time = DateTime.Now.Subtract(end);
+                Fine fine = Fine.SelectByReservation(reservation.id);
+
+                //Debug.WriteLine("=========================================================");
+                //Debug.WriteLine("Time spent");
+                //Debug.WriteLine(time.TotalMinutes);
+                //Debug.WriteLine("=========================================================");
+                if (fine == null)
                 {
-                    Debug.WriteLine("=========================================================");
-                    Debug.WriteLine("You gonna get fined boy");
-                    Debug.WriteLine("{0} {1}", DateTime.Now, end);
-                    Debug.WriteLine("=========================================================");
-
-                    TimeSpan time = DateTime.Now.Subtract(end);
-                    Fine fine = Fine.SelectByReservation(reservation.id);
-
+                    fine = new Fine(DateTime.Now, GetFineAmmount(time), FineState.Formed, reservation.id);
+                    Fine.Create(fine);
+                }
+                else
+                {
+                    Fine.UpdateFineSum(fine, GetFineAmmount(time));
                     //Debug.WriteLine("=========================================================");
-                    //Debug.WriteLine("Time spent");
-                    //Debug.WriteLine(time.TotalMinutes);
+                    //Debug.WriteLine("Minutes");
+                    //Debug.WriteLine(duration.TotalMinutes);
                     //Debug.WriteLine("=========================================================");
-                    if (fine == null)
-                    {
-                        fine = new Fine(DateTime.Now, GetFineAmmount(time), FineState.Formed, reservation.id);
-                        Fine.Create(fine);
-                    }
-                    else
-                    {
-                        Fine.UpdateFineSum(fine, GetFineAmmount(time));
-                        //Debug.WriteLine("=========================================================");
-                        //Debug.WriteLine("Minutes");
-                        //Debug.WriteLine(duration.TotalMinutes);
-                        //Debug.WriteLine("=========================================================");
-                    }
                 }
             }
         }
