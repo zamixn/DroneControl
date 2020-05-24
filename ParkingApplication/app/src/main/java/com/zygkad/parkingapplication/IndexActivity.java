@@ -25,6 +25,7 @@ public class IndexActivity extends AppCompatActivity {
     private Button newReservationButton;
 
     public static OkHttpClient client;
+    IndexActivity activity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,6 @@ public class IndexActivity extends AppCompatActivity {
         fineButton = findViewById(R.id.fine_button);
         newReservationButton = findViewById(R.id.new_reservation_button);
 
-        final IndexActivity activity = this;
 
         changeInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,10 +55,14 @@ public class IndexActivity extends AppCompatActivity {
         newReservationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, NewReservationActivity.class);
-                startActivity(intent);
+                ViewReservationForm();
             }
         });
+    }
+
+    private void ViewReservationForm() {
+        Intent intent = new Intent(activity, NewReservationActivity.class);
+        startActivity(intent);
     }
 
     private static OkHttpClient getUnsafeOkHttpClient() {

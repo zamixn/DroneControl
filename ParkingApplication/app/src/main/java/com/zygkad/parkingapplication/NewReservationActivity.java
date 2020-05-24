@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -73,13 +74,20 @@ public class NewReservationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int hours = timePicker.getHour();
                 int minutes = timePicker.getMinute();
+                if(hours == 0 && minutes == 0)
+                    Toast.makeText(activity, "Nepasirinkta trukmė", Toast.LENGTH_SHORT).show();
+                else {
+                    if (parkingLotSpinner.getSelectedItemPosition() == 0)
+                        Toast.makeText(activity, "Aikštelė nepasirinkta!", Toast.LENGTH_SHORT).show();
+                    else {
+                        String selectedParkingLot = parkingLotSpinner.getSelectedItem().toString();
 
-                String selectedParkingLot = parkingLotSpinner.getSelectedItem().toString();
+                        String licensePlate = LoginActivity.LicensePlate;
+                        String phoneNumber = LoginActivity.PhoneNumber;
 
-                String licensePlate = LoginActivity.LicensePlate;
-                String phoneNumber = LoginActivity.PhoneNumber;
-
-                PostParkingLotRegistration(hours, minutes, String.valueOf(lotIds.get(selectedParkingLot)), licensePlate, phoneNumber);
+                        PostParkingLotRegistration(hours, minutes, String.valueOf(lotIds.get(selectedParkingLot)), licensePlate, phoneNumber);
+                    }
+                }
             }
         });
         register_button.setEnabled(false);
@@ -115,8 +123,21 @@ public class NewReservationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 if (!response.isSuccessful()) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(activity, "Nepavyko, mėginkite dar kartą", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     throw new IOException("Unexpected code " + response);
                 } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(activity, "Sėkmingai rezervuota!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    });
                     Log.i("PostResult", response.body().toString());
                 }
             }
